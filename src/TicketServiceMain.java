@@ -37,6 +37,7 @@ public class TicketServiceMain {
                 });
 
         get("/api/users/currentUser", UserController.loggedInUser);
+        post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
 
 
         after((request, response) -> {
@@ -53,17 +54,16 @@ public class TicketServiceMain {
 
     public static void setUpManifestations() {
         Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Koncert", 600, LocalDateTime.now(),
-                600.34, true, new Location(25.579977, 47.040182, "Novi Sad", "Novi Sad", "21000"), "none", null);
+                600.34, true, new Location(25.579977, 47.040182, "Novi Sad"), "none", null);
         Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Koncert", 300, LocalDateTime.now(),
-                600.34, true, new Location(9.419579, 51.179343, "Novi Sad", "Novi Sad", "21000"), "none", null);
+                600.34, true, new Location(9.419579, 51.179343, "Novi Sad"), "none", null);
         Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Koncert", 640, LocalDateTime.now(),
-                600.34, true, new Location(52.637814, 57.891497, "Novi Sad", "Novi Sad", "21000"), "none", null);
+                600.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", null);
         ManifestationDao manifestationDao = new ManifestationDao();
         manifestationDao.addManifestation(manifestation);
         manifestationDao.addManifestation(manifestation1);
         manifestationDao.addManifestation(manifestation2);
 
         ManifestationController.manifestationDao = manifestationDao;
-        ManifestationController.currentUser = currentUser;
     }
 }

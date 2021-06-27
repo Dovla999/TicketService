@@ -1,21 +1,15 @@
 package model;
 
-import java.util.UUID;
-
 public class Location {
 
     private Double longitude;
     private Double latitude;
-    private String street;
-    private String city;
-    private String postNumber;
+    private String address;
 
-    public Location(Double longitude, Double latitude, String street, String city, String postNumber) {
+    public Location(Double longitude, Double latitude, String address) {
         this.longitude = longitude;
         this.latitude = latitude;
-        this.street = street;
-        this.city = city;
-        this.postNumber = postNumber;
+        this.address = address;
     }
 
     public Location() {
@@ -37,27 +31,11 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public String getStreet() {
-        return street;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostNumber() {
-        return postNumber;
-    }
-
-    public void setPostNumber(String postNumber) {
-        this.postNumber = postNumber;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -15,6 +15,7 @@ public class Manifestation {
     private Location location;
     private String image;
     private User creator;
+    private Double rating = (double) 0;
     private boolean deleted = false;
 
     public boolean isDeleted() {
@@ -119,5 +120,13 @@ public class Manifestation {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

@@ -10,3 +10,14 @@
     height: 20%;
     align-content: flex-end;
 }
+
+.imageitem {
+    width: 400px;
+    min-height: 200px;
+    max-height: auto;
+    float: left;
+    margin: 3px;
+    padding: 3px;
+    max-width: 100%;
+    height: auto;
+}
