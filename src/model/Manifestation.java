@@ -15,6 +15,15 @@ public class Manifestation {
     private Location location;
     private String image;
     private User creator;
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Manifestation(UUID uuid, String name, String type, Integer capacity, LocalDateTime dateTime, Double ticketPrice, Boolean active, Location location, String image, User creator) {
         this.uuid = uuid;

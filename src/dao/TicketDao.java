@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class TicketDao {
-    private HashMap<UUID, Ticket> tickets;
+    private HashMap<UUID, Ticket> tickets = new HashMap<>();
 
     public TicketDao() {
     }

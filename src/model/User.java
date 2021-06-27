@@ -20,6 +20,15 @@ public class User {
     private Set<Comment> comments;
     private Set<Manifestation> manifestations;
     private LoyaltyCategory loyaltyCategory;
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public User() {
     }

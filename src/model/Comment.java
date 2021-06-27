@@ -8,6 +8,15 @@ public class Comment {
     private Manifestation manifestation;
     private String text;
     private Double rating;
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Comment(UUID uuid, User commenter, Manifestation manifestation, String text, Double rating) {
         this.uuid = uuid;

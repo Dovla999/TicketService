@@ -1,10 +1,16 @@
+const Registration = {template: '<registration></registration>'}
+
+
+axios.defaults.baseURL = 'http://localhost:8080/api/'
 const router = new VueRouter({
     mode: 'hash',
-    routes: []
+    routes: [
+        {path: '/registration', component: Registration}
+    ]
 });
+
 
 var app = new Vue({
     router,
     el: '#tickets'
 });
-

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class CommentDao {
-    private HashMap<UUID, Comment> comments;
+    private HashMap<UUID, Comment> comments = new HashMap<>();
 
     public CommentDao() {
     }

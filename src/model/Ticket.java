@@ -10,6 +10,15 @@ public class Ticket {
     private User owner;
     private Boolean active;
     private TicketType ticketType;
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Ticket(UUID uuid, String id, Manifestation manifestation, User owner, Boolean active, TicketType ticketType) {
         this.uuid = uuid;
