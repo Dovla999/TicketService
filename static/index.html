@@ -85,6 +85,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#/registration">Registration</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/login">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#/" onclick="logout()">Logout</a>
+                </li>
         </div>
     </div>
 </nav>
@@ -99,12 +106,23 @@
     <p>Author: Vladimir Jovin SW-30/2018<br>
 </footer>
 
+<script>
+    function logout() {
+        axios
+            .get("users/logout")
+            .then(function (resp) {
+                window.location.href = "#/";
+            });
+    }
+</script>
+
 <script src="js/vue.js"></script>
 <script src="js/vue-router.js"></script>
 <script src="js/axios.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/toast.js"></script>
 <script src="app/registration.js"></script>
+<script src="app/login.js"></script>
 <script src="app/app.js"></script>
 <script src="bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 

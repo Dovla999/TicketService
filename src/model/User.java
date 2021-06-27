@@ -16,9 +16,9 @@ public class User {
     private UserGender userGender;
     private LocalDate birthDate;
     private UserRole userRole;
-    private Set<Ticket> tickets;
-    private Set<Comment> comments;
-    private Set<Manifestation> manifestations;
+    private transient Set<Ticket> tickets;
+    private transient Set<Comment> comments;
+    private transient Set<Manifestation> manifestations;
     private LoyaltyCategory loyaltyCategory;
     private boolean deleted = false;
 

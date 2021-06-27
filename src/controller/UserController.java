@@ -74,4 +74,37 @@ public class UserController {
         response.body(gson.toJson(currentUser));
         return response;
     };
+
+    public static Route logIn = (Request request, Response response)
+            ->
+    {
+        if (currentUser != null) {
+            response.body("User logged in");
+            response.status(400);
+            return response;
+        }
+
+        var body = gson.fromJson((request.body()), HashMap.class);
+
+
+        User user = userDao.findByUsername(body.getOrDefault("username", "-1").toString(),
+                body.getOrDefault("password", "-1").toString());
+
+        if (user != null) {
+            response.body(gson.toJson(user));
+            response.status(200);
+        } else {
+            response.body("Username and password incorrect");
+            response.status(400);
+        }
+
+        return response;
+    };
+
+    public static Route logOut = (Request request, Response response)
+            ->
+    {
+        currentUser = null;
+        return response;
+    };
 }

@@ -28,6 +28,8 @@ public class TicketServiceMain {
         get("/hello", (req, res) -> "Hello World");
         get("/api/manifestations/all", ManifestationController.getAllManifestations);
         post("/api/users/newClient", UserController.newClient);
+        post("/api/users/logIn", UserController.logIn);
+        get("/api/users/logout", UserController.logOut);
         before("/api/users/newClient",
                 (request, response) ->
                 {
