@@ -10,6 +10,33 @@ public class Comment {
     private Double rating;
     private boolean deleted = false;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (deleted != comment.deleted) return false;
+        if (uuid != null ? !uuid.equals(comment.uuid) : comment.uuid != null) return false;
+        if (commenter != null ? !commenter.equals(comment.commenter) : comment.commenter != null) return false;
+        if (manifestation != null ? !manifestation.equals(comment.manifestation) : comment.manifestation != null)
+            return false;
+        if (text != null ? !text.equals(comment.text) : comment.text != null) return false;
+        return rating != null ? rating.equals(comment.rating) : comment.rating == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (commenter != null ? commenter.hashCode() : 0);
+        result = 31 * result + (manifestation != null ? manifestation.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (deleted ? 1 : 0);
+        return result;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }

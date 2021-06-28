@@ -1,6 +1,10 @@
+import controller.CommentController;
 import controller.ManifestationController;
+import controller.TicketController;
 import controller.UserController;
+import dao.CommentDao;
 import dao.ManifestationDao;
+import dao.TicketDao;
 import dao.UserDao;
 import model.Location;
 import model.Manifestation;
@@ -23,6 +27,8 @@ public class TicketServiceMain {
         port(8080);
         setUpManifestations();
         setUpUsers();
+        setUpComments();
+        setUpTickets();
 
 
         get("/hello", (req, res) -> "Hello World");
@@ -40,6 +46,13 @@ public class TicketServiceMain {
         get("/api/users/currentUser", UserController.loggedInUser);
         post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
 
+        post("/api/tickets/addToCart", TicketController.addToCart);
+        get("/api/tickets/removeFromCart/:id", TicketController.removeFromCart);
+        get("/api/tickets/buyCart", TicketController.buyCart);
+        get("/api/tickets/allClientTickets", TicketController.clientTickets);
+        get("/api/tickets/getCart", TicketController.getCart);
+        get("/api/tickets/cartPrice", TicketController.cartPrice);
+
 
         after((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -51,6 +64,16 @@ public class TicketServiceMain {
     private static void setUpUsers() {
         UserController.userDao = new UserDao();
         UserController.currentUser = currentUser;
+    }
+
+    private static void setUpComments() {
+        CommentController.commentDao = new CommentDao();
+
+    }
+
+    private static void setUpTickets() {
+        TicketController.ticketDao = new TicketDao();
+
     }
 
     public static void setUpManifestations() {

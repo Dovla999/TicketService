@@ -129,4 +129,42 @@ public class Manifestation {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Manifestation that = (Manifestation) o;
+
+        if (deleted != that.deleted) return false;
+        if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (capacity != null ? !capacity.equals(that.capacity) : that.capacity != null) return false;
+        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
+        if (ticketPrice != null ? !ticketPrice.equals(that.ticketPrice) : that.ticketPrice != null) return false;
+        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
+        if (image != null ? !image.equals(that.image) : that.image != null) return false;
+        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+        return rating != null ? rating.equals(that.rating) : that.rating == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (capacity != null ? capacity.hashCode() : 0);
+        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
+        result = 31 * result + (ticketPrice != null ? ticketPrice.hashCode() : 0);
+        result = 31 * result + (active != null ? active.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (deleted ? 1 : 0);
+        return result;
+    }
 }
