@@ -2,6 +2,7 @@ const Registration = {template: '<registration></registration>'}
 const Login = {template: '<login></login>'}
 const NewManifestation = {template: '<newmanifestation></newmanifestation>'}
 const HomePage = {template: '<homepage></homepage>'}
+const Manifestation = {template: '<manifestation></manifestation>'}
 
 
 axios.defaults.baseURL = 'http://localhost:8080/api/'
@@ -11,7 +12,8 @@ const router = new VueRouter({
         {path: '/', component: HomePage},
         {path: '/registration', component: Registration},
         {path: '/login', component: Login},
-        {path: '/newManifestation', component: NewManifestation}
+        {path: '/newManifestation', component: NewManifestation},
+        {path: '/manifestation/:id', name: 'Manifestation', component: Manifestation}
 
     ]
 });

@@ -27,6 +27,7 @@ public class TicketServiceMain {
 
         get("/hello", (req, res) -> "Hello World");
         get("/api/manifestations/all", ManifestationController.getAllManifestations);
+        get("api/manifestations/:id", ManifestationController.getOneManifestation);
         post("/api/users/newClient", UserController.newClient);
         post("/api/users/logIn", UserController.logIn);
         get("/api/users/logout", UserController.logOut);

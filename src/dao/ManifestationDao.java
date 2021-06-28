@@ -39,4 +39,7 @@ public class ManifestationDao {
             manifestations.put(manifestation.getUuid(), manifestation);
     }
 
+    public Manifestation findById(String id) {
+        return manifestations.getOrDefault(UUID.fromString(id), null);
+    }
 }

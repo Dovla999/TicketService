@@ -31,7 +31,6 @@ public class ManifestationController {
 
         response.status(200);
 
-        System.out.println(gson.toJson(request.body()));
 
         var body = gson.fromJson((request.body()), HashMap.class);
 
@@ -70,6 +69,10 @@ public class ManifestationController {
 
         return response;
     };
+
+
+    public static Route getOneManifestation = (Request request, Response response) ->
+            gson.toJson(manifestationDao.findById(request.params(":id")));
 
 
 }

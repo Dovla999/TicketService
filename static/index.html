@@ -34,8 +34,7 @@
             color: wheat;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-
+    <title>Ticket Service</title>
 </head>
 
 <body>
@@ -73,35 +72,35 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#/">Home</a>
-        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-                class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#/registration">Registration</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#/login">Login</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#/" onclick="logout()">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#/newManifestation">New Manifestation</a>
-                </li>
-        </div>
-    </div>
-</nav>
-
-
 <div id="tickets">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#/">Home</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse"
+                    type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#/registration">Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#/login">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#/" onclick="logout()">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#/newManifestation">New Manifestation</a>
+                    </li>
+            </div>
+        </div>
+    </nav>
+
+
     <router-view></router-view>
 </div>
 
@@ -123,6 +122,8 @@
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
 <script src="js/vue.js"></script>
 <script src="js/vue-router.js"></script>
 <script src="js/axios.js"></script>
@@ -131,6 +132,7 @@
 <script src="app/registration.js"></script>
 <script src="app/homePage.js"></script>
 <script src="app/login.js"></script>
+<script src="app/manifestation.js"></script>
 <script src="app/newManifestation.js"></script>
 <script src="app/app.js"></script>
 <script src="bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>

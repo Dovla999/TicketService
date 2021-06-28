@@ -167,6 +167,7 @@ Vue.component("newmanifestation", {
                 zoom: 10
             })
         });
+
         axios.get('users/currentUser')
             .then(res => {
                 console.log(res);
