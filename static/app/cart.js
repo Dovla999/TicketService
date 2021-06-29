@@ -17,6 +17,7 @@ Vue.component('cart', {
             <tr>
                 <th scope="col">Manifestation</th>
                 <th scope="col">Type</th>
+                <th scope="col">Price</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@ Vue.component('cart', {
             <tr v-for="ticket in this.tickets" :key="ticket.uuid">
                 <td> {{ticket.manifestation.name}} </td>
                 <td> {{ticket.ticketType}} </td>
+                <td> {{ticket.ticketPrice}} </td>
                 <td>
                     <button type="button" class="btn btn-danger" v-on:click="removeFromCart(ticket.uuid)">Remove</button>
                 </td>
@@ -39,9 +41,16 @@ Vue.component('cart', {
             axios.get('tickets/removeFromCart/' + id)
                 .then(res => {
                     self.tickets = res.data;
-                    axios.get('tickets/cartPrice')
+                    axios.get('tickets/getCart')
                         .then(res => {
-                            self.totalPrice = res.data;
+                            self.tickets = res.data;
+                            axios.get('tickets/cartPrice')
+                                .then(res => {
+                                    self.totalPrice = res.data;
+                                })
+                        })
+                        .catch(err => {
+                            console.error(err);
                         })
 
                 })

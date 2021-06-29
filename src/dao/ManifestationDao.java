@@ -42,4 +42,10 @@ public class ManifestationDao {
     public Manifestation findById(String id) {
         return manifestations.getOrDefault(UUID.fromString(id), null);
     }
+
+    public boolean changeActiveById(String id) {
+        var m = findById(id);
+        if (m != null) m.setActive(!m.getActive());
+        return m != null;
+    }
 }

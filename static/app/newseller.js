@@ -1,16 +1,14 @@
-Vue.component("registration", {
+Vue.component("newseller", {
     data: function () {
         return {
-            user: {
-                gender: 'MALE'
-            }
+            user: {}
         }
     },
     template: ` 
 <div>
 <div class="container">
   <div class="mx-auto" style="width: 200px;">
-<h1>Registration </h1> 
+<h1>Seller </h1> 
 
   </div>
   <div class="row">	
@@ -26,7 +24,7 @@ Vue.component("registration", {
     <div class="row">	
 				<div class="col"> <h3>Gender:</h3> </div>
 				<div class="col">
-					<select name="gender" id="gender" v-model="user.gender" >
+					<select name="pol" id="pol" v-model="user.gender" >
 					  <option value="FEMALE">FEMALE</option>
 					  <option value="MALE">MALE</option>
 					</select>
@@ -57,7 +55,7 @@ Vue.component("registration", {
 
         },
         register: function () {
-            axios.post('users/newClient', JSON.stringify(this.user))
+            axios.post('users/newSeller', JSON.stringify(this.user))
                 .then(function (response) {
                     alert(response.data);
                 })

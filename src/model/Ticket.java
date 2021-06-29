@@ -10,6 +10,16 @@ public class Ticket {
     private User owner;
     private Boolean active;
     private TicketType ticketType;
+    private Double ticketPrice;
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
+
     private boolean deleted = false;
 
     public UUID getUuid() {

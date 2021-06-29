@@ -30,18 +30,14 @@ public class TicketServiceMain {
         setUpComments();
         setUpTickets();
 
-
-        get("/hello", (req, res) -> "Hello World");
         get("/api/manifestations/all", ManifestationController.getAllManifestations);
         get("api/manifestations/:id", ManifestationController.getOneManifestation);
         post("/api/users/newClient", UserController.newClient);
         post("/api/users/logIn", UserController.logIn);
         get("/api/users/logout", UserController.logOut);
-        before("/api/users/newClient",
-                (request, response) ->
-                {
-                    if (currentUser != null) halt();
-                });
+        before("/api/users/newClient", (request, response) -> {
+            if (currentUser != null) halt();
+        });
 
         get("/api/users/currentUser", UserController.loggedInUser);
         post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
@@ -52,6 +48,8 @@ public class TicketServiceMain {
         get("/api/tickets/allClientTickets", TicketController.clientTickets);
         get("/api/tickets/getCart", TicketController.getCart);
         get("/api/tickets/cartPrice", TicketController.cartPrice);
+        get("/api/tickets/adminTickets", TicketController.adminTickets);
+        get("api/manifestations/activate/:id", ManifestationController.changeActiveManifestation);
 
 
         after((request, response) -> {

@@ -54,6 +54,8 @@ public class TicketController {
             .addSerializationExclusionStrategy(strategy)
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .create();
+
+
     public static Route addToCart = (Request request, Response response) ->
     {
         var body = gson.fromJson((request.body()), HashMap.class);
@@ -72,6 +74,10 @@ public class TicketController {
                 t.setOwner(UserController.currentUser);
                 t.setManifestation(manif);
                 t.setTicketType(TicketType.valueOf((String) body.get("ticketType")));
+                int modifier = 1;
+                if (t.getTicketType().equals(TicketType.VIP)) modifier = 4;
+                if (t.getTicketType().equals(TicketType.FAN_PIT)) modifier = 2;
+                t.setTicketPrice(t.getManifestation().getTicketPrice() * modifier);
                 cart.add(t);
             }
 
@@ -111,6 +117,7 @@ public class TicketController {
                             int modifier = 1;
                             if (ticket.getTicketType().equals(TicketType.VIP)) modifier = 4;
                             if (ticket.getTicketType().equals(TicketType.FAN_PIT)) modifier = 2;
+                            ticket.setTicketPrice(ticket.getManifestation().getTicketPrice() * modifier);
                             ticket.getOwner().setPoints(
                                     ticket.getOwner().getPoints()
                                             + ticket.getManifestation().getTicketPrice() * modifier
@@ -132,5 +139,10 @@ public class TicketController {
     public static String randomString(int len) {
         return IntStream.range(0, len).mapToObj(i -> String.valueOf(AB.charAt(rnd.nextInt(AB.length())))).collect(Collectors.joining());
     }
+
+    public static Route adminTickets = (Request request, Response response) ->
+            gson.toJson(
+                    ticketDao.getTickets().values()
+            );
 
 }

@@ -74,5 +74,17 @@ public class ManifestationController {
     public static Route getOneManifestation = (Request request, Response response) ->
             gson.toJson(manifestationDao.findById(request.params(":id")));
 
+    public static Route changeActiveManifestation = (Request request, Response response) ->
+    {
+        if (manifestationDao.changeActiveById(request.params("id"))) {
+            response.status(200);
+            response.body("Success");
+        } else {
+            response.status(400);
+            response.body("Wrong id");
+        }
+        return response;
+    };
+
 
 }
