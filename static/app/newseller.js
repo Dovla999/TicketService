@@ -1,7 +1,9 @@
 Vue.component("newseller", {
     data: function () {
         return {
-            user: {}
+            user: {
+                gender: 'MALE'
+            }
         }
     },
     template: ` 
@@ -24,7 +26,7 @@ Vue.component("newseller", {
     <div class="row">	
 				<div class="col"> <h3>Gender:</h3> </div>
 				<div class="col">
-					<select name="pol" id="pol" v-model="user.gender" >
+					<select  v-model="user.gender" >
 					  <option value="FEMALE">FEMALE</option>
 					  <option value="MALE">MALE</option>
 					</select>

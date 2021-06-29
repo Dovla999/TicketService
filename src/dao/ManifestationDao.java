@@ -1,6 +1,7 @@
 package dao;
 
 import model.Manifestation;
+import model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,5 +48,13 @@ public class ManifestationDao {
         var m = findById(id);
         if (m != null) m.setActive(!m.getActive());
         return m != null;
+    }
+
+    public List<Manifestation> getManifestationsForSeller(User currentUser) {
+        return manifestations.values()
+                .stream()
+                .filter(manifestation -> !manifestation.isDeleted())
+                .filter(manifestation -> manifestation.getCreator().getUuid().equals(currentUser.getUuid()))
+                .collect(Collectors.toList());
     }
 }

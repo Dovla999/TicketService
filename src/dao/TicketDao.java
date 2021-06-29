@@ -35,12 +35,14 @@ public class TicketDao {
     public int numberOfTickets(Manifestation manifestation) {
         return (int) tickets.values()
                 .stream()
+                .filter(ticket -> !ticket.isDeleted())
                 .filter(ticket -> ticket.getManifestation().getUuid().equals(manifestation.getUuid())).count();
     }
 
     public List<Ticket> getTicketsForUser(User currentUser) {
         return tickets.values()
                 .stream()
+                .filter(ticket -> !ticket.isDeleted())
                 .filter(ticket -> ticket.getOwner().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
     }

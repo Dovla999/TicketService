@@ -22,6 +22,7 @@ public class User {
     private transient Set<Manifestation> manifestations = new HashSet<>();
     private LoyaltyCategory loyaltyCategory;
     private boolean deleted = false;
+    private boolean suspicious = false;
     private Double points = (double) 0;
 
     public Double getPoints() {
@@ -196,5 +197,13 @@ public class User {
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + (points != null ? points.hashCode() : 0);
         return result;
+    }
+
+    public boolean isSuspicious() {
+        return suspicious;
+    }
+
+    public void setSuspicious(boolean suspicious) {
+        this.suspicious = suspicious;
     }
 }

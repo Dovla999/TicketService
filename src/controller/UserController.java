@@ -68,6 +68,52 @@ public class UserController {
         return response;
     };
 
+
+    public static Route newSeller = (Request request, Response response) -> {
+
+      /*  if (!currentUser.getUserRole().equals(UserRole.ADMIN)) {
+            response.body("User logged in");
+            response.status(400);
+            return response;
+        } */
+
+
+        var body = gson.fromJson((request.body()), HashMap.class);
+
+
+        User user = new User();
+        var message = "Registration successful";
+        try {
+            user.setFirstName((String) body.get("firstname"));
+            if (user.getFirstName().equals("")) message = "First name can't be empty";
+            user.setLastName((String) body.get("lastname"));
+            if (user.getLastName().equals("")) message = "Last name can't be empty";
+            user.setBirthDate(LocalDate.parse((String) body.get("birthdate")));
+            user.setUserGender(UserGender.valueOf((String) body.get("gender")));
+            user.setUsername((String) body.get("username"));
+            if (user.getUsername().equals("")) message = "Username can't be empty";
+            user.setPassword((String) body.get("password"));
+            if (user.getPassword().equals("")) message = "Password can't be empty";
+        } catch (Exception e) {
+            message = "Please fill in all fields";
+            response.body(message);
+            response.status(400);
+            return response;
+        }
+        var addedUser = userDao.newSeller(user);
+
+        if (addedUser != null) {
+            response.body("New seller added");
+            response.status(200);
+        } else {
+            message = "Username already exists";
+            response.body(message);
+            response.status(400);
+        }
+
+        return response;
+    };
+
     public static Route loggedInUser = (Request request, Response response)
             ->
     {
@@ -91,6 +137,7 @@ public class UserController {
                 body.getOrDefault("password", "-1").toString());
 
         if (user != null) {
+            currentUser = user;
             response.body(gson.toJson(user));
             response.status(200);
         } else {
@@ -107,4 +154,9 @@ public class UserController {
         currentUser = null;
         return response;
     };
+
+
+    public static Route usersForAdmin = (Request request, Response response)
+            ->
+            gson.toJson(userDao.getForAdmin());
 }

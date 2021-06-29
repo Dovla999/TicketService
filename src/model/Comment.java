@@ -8,6 +8,16 @@ public class Comment {
     private Manifestation manifestation;
     private String text;
     private Double rating;
+    private boolean active = false;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     private boolean deleted = false;
 
     @Override

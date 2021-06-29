@@ -8,7 +8,7 @@ Vue.component("login", {
 <div>
 <div class="container">
   <div class="mx-auto" style="width: 200px;">
-<h1>Registration </h1> 
+<h1>Login </h1> 
 
   </div>
   <div class="row">	

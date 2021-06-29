@@ -4,6 +4,7 @@ import Util.LocalDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.ManifestationDao;
+import dto.ManifSellerDto;
 import model.Location;
 import model.Manifestation;
 import spark.Request;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ManifestationController {
     public static ManifestationDao manifestationDao;
@@ -86,5 +88,10 @@ public class ManifestationController {
         return response;
     };
 
+
+    public static Route getSellerManifestations = (Request request, Response response) ->
+            gson.toJson(manifestationDao.getManifestationsForSeller(UserController.currentUser)
+                    .stream().map(ManifSellerDto::new)
+                    .collect(Collectors.toList()));
 
 }
