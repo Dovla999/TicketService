@@ -46,4 +46,12 @@ public class TicketDao {
                 .filter(ticket -> ticket.getOwner().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
     }
+
+    public List<Ticket> getTicketsForSeller(User currentUser) {
+        return tickets.values()
+                .stream()
+                .filter(ticket -> !ticket.isDeleted())
+                .filter(ticket -> ticket.getManifestation().getCreator().getUuid().equals(currentUser.getUuid()))
+                .collect(Collectors.toList());
+    }
 }

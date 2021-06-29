@@ -145,4 +145,7 @@ public class TicketController {
                     ticketDao.getTickets().values()
             );
 
+    public static Route getTicketsForSeller = (Request request, Response response) ->
+            gson.toJson(ticketDao.getTicketsForSeller(UserController.currentUser));
+
 }

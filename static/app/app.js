@@ -11,6 +11,9 @@ const AdminTickets = {template: '<ticketsadmin></ticketsadmin>'}
 const AdminUsers = {template: '<usersadmin></usersadmin>'}
 const AdminComments = {template: '<commentsadmin></commentsadmin>'}
 const Profile = {template: '<profile></profile>'}
+const ManifSeller = {template: '<manifseller></manifseller>'}
+const TicketsSeller = {template: '<tickets-seller></tickets-seller>'}
+const SellerComments = {template: '<sellercomments></sellercomments>'}
 
 axios.defaults.baseURL = 'http://localhost:8080/api/'
 const router = new VueRouter({
@@ -28,7 +31,10 @@ const router = new VueRouter({
         {path: '/ticketsadmin', component: AdminTickets},
         {path: '/usersadmin', component: AdminUsers},
         {path: '/commentsadmin', component: AdminComments},
-        {path: '/profile', component: Profile}
+        {path: '/profile', component: Profile},
+        {path: '/manifseller', component: ManifSeller},
+        {path: '/sellertickets', component: TicketsSeller},
+        {path: '/sellercomments', component: SellerComments}
 
 
     ]

@@ -49,4 +49,13 @@ public class CommentController {
 
     public static Route allForAdmin = (Request request, Response response) ->
             gson.toJson(commentDao.allComments());
+
+    public static Route allForSeller = (Request request, Response response) ->
+            gson.toJson(commentDao.commentsSeller(UserController.currentUser));
+
+    public static Route putActive = (Request request, Response response) ->
+            gson.toJson(commentDao.changeActive((request.params("id")), UserController.currentUser));
+
+    public static Route getForManifestation = (Request request, Response response) ->
+            gson.toJson(commentDao.getForManifestation(request.params("id")));
 }

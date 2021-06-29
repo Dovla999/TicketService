@@ -50,13 +50,19 @@ public class TicketServiceMain {
 
         post("/api/tickets/addToCart", TicketController.addToCart);
         get("/api/tickets/removeFromCart/:id", TicketController.removeFromCart);
+        get("/api/tickets/seller", TicketController.getTicketsForSeller);
         get("/api/tickets/buyCart", TicketController.buyCart);
         get("/api/tickets/allClientTickets", TicketController.clientTickets);
         get("/api/tickets/getCart", TicketController.getCart);
         get("/api/tickets/cartPrice", TicketController.cartPrice);
         get("/api/tickets/adminTickets", TicketController.adminTickets);
         get("/api/users/allForAdmin", UserController.usersForAdmin);
+
+
         get("/api/comments/allForAdmin", CommentController.allForAdmin);
+        get("/api/comments/allForSeller", CommentController.allForSeller);
+        get("/api/comments/activate/:id", CommentController.putActive);
+        get("/api/comments/getForManifestation/:id", CommentController.getForManifestation);
 
 
         get("api/manifestations/:id", ManifestationController.getOneManifestation);

@@ -1,6 +1,7 @@
 package dao;
 
 import model.Comment;
+import model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,31 @@ public class CommentDao {
         return comments.values()
                 .stream()
                 .filter(comment -> !comment.isDeleted())
+                .collect(Collectors.toList());
+    }
+
+    public List<Comment> commentsSeller(User currentUser) {
+        return comments.values()
+                .stream()
+                .filter(comment -> !comment.isDeleted())
+                .filter(comment -> comment.getManifestation().getCreator().getUuid().equals(currentUser.getUuid()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Comment> changeActive(String id, User user) {
+        comments.values()
+                .stream()
+                .filter(comment -> comment.getUuid().equals(UUID.fromString(id)))
+                .forEach(comment -> comment.setActive(!comment.isActive()));
+        return commentsSeller(user);
+    }
+
+    public List<Comment> getForManifestation(String id) {
+        return comments.values()
+                .stream()
+                .filter(comment -> !comment.isDeleted())
+                .filter(comment -> comment.getManifestation().getUuid().equals(UUID.fromString(id)))
+                .filter(Comment::isActive)
                 .collect(Collectors.toList());
     }
 }

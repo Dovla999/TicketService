@@ -3,8 +3,10 @@ package dto;
 import model.Manifestation;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ManifSellerDto {
+    private UUID uuid;
     private String name;
     private Integer capacity;
     private Double ticketPrice;
@@ -19,6 +21,7 @@ public class ManifSellerDto {
         dateTime = m.getDateTime();
         type = m.getType();
         rating = m.getRating();
+        uuid = m.getUuid();
     }
 
     public ManifSellerDto() {

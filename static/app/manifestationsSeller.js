@@ -19,7 +19,7 @@ Vue.component('manifseller', {
                 <th scope="col">Date</th>
                 <th scope="col">Type</th>
                 <th scope="col">Rating</th>
-                <th scope="col">Active</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@ Vue.component('manifseller', {
                 <td> {{manif.type}} </td>
                 <td> {{manif.rating}} </td>
                 <td >
-                    <button type="button" class="btn btn-danger" v-on:click="details(manif.uuid)">Edit</button>
+                    <button type="button" class="btn btn-primary" v-on:click="details(manif.uuid)">Edit</button>
                 </td>
 
             </tr>
@@ -44,25 +44,26 @@ Vue.component('manifseller', {
         details: function (id) {
 
         },
-        mounted() {
-            let self = this;
-            axios.get('manifestations/sellerManifestations')
-                .then(res => {
+    },
+    mounted() {
+        console.log('hello')
+        let self = this;
+        axios.get('manifestations/sellerManifestations')
+            .then(res => {
+                console.log(res.data);
+                self.manifs = res.data;
+                self.manifs.forEach(
+                    t => {
+                        if (t.rating === 0) t.rating = 'No rating yet';
+                        t.datetime = (new Date(t.dateTime)).toLocaleString();
 
-                    self.manifs = res.data;
-                    self.manifs.forEach(
-                        t => {
-                            console.log(t);
-                            if (t.rating === 0) t.rating = 'No rating yet';
-                            t.datetime = (new Date(t.dateTime)).toLocaleString();
+                    }
+                );
 
-                        }
-                    );
-
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        }
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
+
 })

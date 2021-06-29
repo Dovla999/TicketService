@@ -1,24 +1,25 @@
 Vue.component('manifestation', {
-        data: function () {
-            return {
-                manif: {
-                    location: {},
-                    image: '',
-                    datetime: new Date(),
-                },
-                tickets: {
-                    count: 1,
-                    type: 'REGULAR'
-                },
-                mapPosition: {latitude: 45.267136, longitude: 19.833549},
-                comment: {
-                    rating: 1,
-                    text: ""
-                }
+    data: function () {
+        return {
+            manif: {
+                location: {},
+                image: '',
+                datetime: new Date(),
+            },
+            tickets: {
+                count: 1,
+                type: 'REGULAR'
+            },
+            mapPosition: {latitude: 45.267136, longitude: 19.833549},
+            comment: {
+                rating: 1,
+                text: ""
+            },
+            comments: []
 
-            }
-        },
-        template: `
+        }
+    },
+    template: `
     <div>
     <div class="container">
     
@@ -70,7 +71,6 @@ Vue.component('manifestation', {
                   </div>
             </div>
             <div class="row">
-            <div class="col"> </div>
             <div class="col">
             <div class="container justify-content-center mt-5 border-left border-right">
     <div class="d-flex fluid justify-content-center pt-3 pb-2">
@@ -80,9 +80,10 @@ Vue.component('manifestation', {
  
     </div>
     <div class="d-flex justify-content-center py-2">
-        <div class="second py-2 px-2"> <span class="text1">Type your note, and hit enter to add it</span>
-            <div class="d-flex justify-content-between py-1 pt-2">
-               <div><span class="text3">Upvote?</span><span class="thumbup"><i class="fa fa-thumbs-o-up"></i></span><span class="text4">3</span></div>
+        <div class="second py-2 px-2"> <div  v-for="comment of this.comments" :key="comment.uuid"> <span class="text1">{{comment.commenter.username}}</span>
+            <div style="padding: 30px; background-color: gray"  class="d-flex justify-content-between py-1 pt-2">
+               <div><span class="text3">{{comment.text}}</span><span class="thumbup"><i class="fa fa-thumbs-o-up"></i></span><span class="text4"> Rating : {{comment.rating}}</span></div>
+            </div>
             </div>
         </div>
     </div>
@@ -96,83 +97,89 @@ Vue.component('manifestation', {
     </div>
 
     `,
-        methods: {
-            showOnMap: function () {
-                let self = this;
-                self.mapPosition.latitude = parseFloat(this.manif.location.latitude);
-                self.mapPosition.longitude = parseFloat(this.manif.location.longitude);
-                self.manif.latitude = self.mapPosition.latitude;
-                self.manif.longitude = self.mapPosition.longitude;
+    methods: {
+        showOnMap: function () {
+            let self = this;
+            self.mapPosition.latitude = parseFloat(this.manif.location.latitude);
+            self.mapPosition.longitude = parseFloat(this.manif.location.longitude);
+            self.manif.latitude = self.mapPosition.latitude;
+            self.manif.longitude = self.mapPosition.longitude;
 
-                console.log(self.mapPosition.latitude);
-                console.log(self.mapPosition.longitude);
-                let map = new ol.Map({
-                    target: 'map',
-                    interactions: [],
-                    controls: [],
-                    layers: [
-                        new ol.layer.Tile({
-                            source: new ol.source.OSM()
-                        })
-                    ],
-                    view: new ol.View({
-                        center: ol.proj.fromLonLat([self.mapPosition.longitude, self.mapPosition.latitude]),
-                        zoom: 15
+            console.log(self.mapPosition.latitude);
+            console.log(self.mapPosition.longitude);
+            let map = new ol.Map({
+                target: 'map',
+                interactions: [],
+                controls: [],
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
                     })
-                });
-            },
-            addToCart: function () {
-                let tmp = {
-                    manifestation: this.manif.uuid,
-                    ticketType: this.tickets.type,
-                    count: this.tickets.count
-                }
-                axios.post('tickets/addToCart', JSON.stringify(tmp))
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    })
-            },
-            addComment: function () {
-                let tmp = {
-                    manifestation: this.manif.uuid,
-                    text: this.comment.text,
-                    rating: `${this.comment.rating}`
-                };
-                axios.post('comments/putComment', JSON.stringify(tmp))
-                    .then(res => {
-                        alert("Comment submitted, seller will verify it soon.");
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    })
-
-
-            }
-
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([self.mapPosition.longitude, self.mapPosition.latitude]),
+                    zoom: 15
+                })
+            });
         },
-        mounted() {
-
-            axios.get('manifestations/' + this.$route.params.id)
+        addToCart: function () {
+            let tmp = {
+                manifestation: this.manif.uuid,
+                ticketType: this.tickets.type,
+                count: this.tickets.count
+            }
+            axios.post('tickets/addToCart', JSON.stringify(tmp))
                 .then(res => {
-                    this.manif = res.data;
-                    this.manif.datetime = new Date(this.manif.dateTime);
-                    console.log(this.manif);
-                    this.manif.image = 'data:image/png;base64,' + this.manif.image;
-                    this.showOnMap();
+                    console.log(res)
                 })
                 .catch(err => {
                     console.error(err);
-                });
-
-
+                })
         },
-        watch: {
-            'comment.rating': function (n, o) {
-                if (n > 5 || n < 1) this.comment.rating = o;
-            }
+        addComment: function () {
+            let tmp = {
+                manifestation: this.manif.uuid,
+                text: this.comment.text,
+                rating: `${this.comment.rating}`
+            };
+            axios.post('comments/putComment', JSON.stringify(tmp))
+                .then(res => {
+                    alert("Comment submitted, seller will verify it soon.");
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+
+        }
+
+    },
+    mounted() {
+        let self = this;
+        axios.get('manifestations/' + this.$route.params.id)
+            .then(res => {
+                this.manif = res.data;
+                this.manif.datetime = new Date(this.manif.dateTime);
+                console.log(this.manif);
+                this.manif.image = 'data:image/png;base64,' + this.manif.image;
+                this.showOnMap();
+                axios.get('comments/getForManifestation/' + self.manif.uuid)
+                    .then(res => {
+                        self.comments = res.data;
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+
+    },
+    watch: {
+        'comment.rating': function (n, o) {
+            if (n > 5 || n < 1) this.comment.rating = o;
         }
     }
-)
+})
