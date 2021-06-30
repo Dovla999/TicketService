@@ -6,6 +6,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.TicketDao;
+import model.LoyaltyProgram;
 import model.Manifestation;
 import model.Ticket;
 import model.TicketType;
@@ -15,10 +16,7 @@ import spark.Route;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -99,10 +97,14 @@ public class TicketController {
         response.status(200);
         return gson.toJson(cart);
     };
-    public static Route clientTickets = (Request request, Response response) ->
-            gson.toJson(
-                    ticketDao.getTicketsForUser(UserController.currentUser)
-            );
+    public static Route clientTickets = (Request request, Response response) -> {
+        Map<String, String> sfs = new HashMap<>();
+        request.queryParams()
+                .forEach(s -> sfs.put(s, request.queryParams(s)));
+        return gson.toJson(
+                ticketDao.getTicketsForUser(UserController.currentUser, sfs)
+        );
+    };
     static SecureRandom rnd = new SecureRandom();
     public static Route buyCart = (Request request, Response response) ->
     {
@@ -122,6 +124,8 @@ public class TicketController {
                                     ticket.getOwner().getPoints()
                                             + ticket.getManifestation().getTicketPrice() * modifier
                             );
+                            ticket.getOwner().setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(ticket.getOwner().getPoints())));
+                            ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() - 1);
                         }
                     });
             cart.clear();

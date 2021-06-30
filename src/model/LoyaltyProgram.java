@@ -1,7 +1,9 @@
 package model;
 
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public enum LoyaltyProgram {
@@ -27,7 +29,16 @@ public enum LoyaltyProgram {
         this.categories = categories;
     }
 
+    public LoyaltyCategory getLoyaltyCategoryByPoints(Integer points) {
 
+        var cats = categories.stream()
+                .filter(loyaltyCategory -> loyaltyCategory.getPoints() <= points)
+                .collect(Collectors.toList());
+        return cats.stream().max(Comparator.comparing(LoyaltyCategory::getPoints))
+                .get();
+
+
+    }
 }
 
 

@@ -47,7 +47,7 @@ Vue.component('homepage', {
 </select>
 <span class="input-group-text">Filter by type</span>
 <select v-model="sfs.filterType">
-<option value="ALL">NONE</option>
+<option value="ALL">ALL</option>
 <option v-for="type of types" :value="type">{{type}}</option>
 </select>
 <span class="input-group-text">Sold out</span>
@@ -60,7 +60,7 @@ Vue.component('homepage', {
 </div>
 </div>
     <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2">
     <div class="col" v-for="m in ms" :key="m.uuid">
         <div class="card mb-3" style="max-width: 700px;">
             <div class="row g-0">
@@ -115,6 +115,13 @@ Vue.component('homepage', {
     },
     mounted() {
         let self = this;
+        axios.get('manifestations/getTypes')
+            .then(res => {
+                self.types = res.data;
+            })
+            .catch(err => {
+                console.error(err);
+            })
         axios.get('manifestations/all')
             .then(res => {
                 self.ms = res.data;

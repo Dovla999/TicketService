@@ -4,6 +4,7 @@ import Util.LocalDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.UserDao;
+import model.LoyaltyProgram;
 import model.User;
 import model.UserGender;
 import spark.Request;
@@ -13,6 +14,7 @@ import spark.Route;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class UserController {
@@ -47,6 +49,7 @@ public class UserController {
             if (user.getUsername().equals("")) message = "Username can't be empty";
             user.setPassword((String) body.get("password"));
             if (user.getPassword().equals("")) message = "Password can't be empty";
+            user.setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints(1));
         } catch (Exception e) {
             message = "Please fill in all fields";
             response.body(message);
@@ -190,9 +193,14 @@ public class UserController {
     };
 
 
-    public static Route usersForAdmin = (Request request, Response response)
-            ->
-            gson.toJson(userDao.getForAdmin());
+    public static Route usersForAdmin = (request, response) -> {
+        Map<String, String> sfs = new HashMap<>();
+        request.queryParams()
+                .forEach(s -> sfs.put(s, request.queryParams(s)));
+        return gson.toJson(userDao.getAllForAdmin(sfs));
+
+
+    };
 
     public static Route deleteUser = (request, response) -> {
         if (userDao.deleteUser(request.params("id"))) {

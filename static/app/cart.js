@@ -8,7 +8,7 @@ Vue.component('cart', {
     template: `
     <div width="80%">
     <h3>
-    Total price of items in your cart is : {{totalPrice}}
+    Total price of items in your cart is : {{totalPrice.toFixed(2)}}
     <button type="button" class="btn btn-primary" v-on:click="buyCart()">Buy</button>
 
 </h3>

@@ -4,9 +4,8 @@ import model.Manifestation;
 import model.Ticket;
 import model.User;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TicketDao {
@@ -39,12 +38,64 @@ public class TicketDao {
                 .filter(ticket -> ticket.getManifestation().getUuid().equals(manifestation.getUuid())).count();
     }
 
-    public List<Ticket> getTicketsForUser(User currentUser) {
-        return tickets.values()
+    public List<Ticket> getTicketsForUser(User currentUser, Map<String, String> sfs) {
+        var list = tickets.values()
                 .stream()
                 .filter(ticket -> !ticket.isDeleted())
                 .filter(ticket -> ticket.getOwner().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
+        if (sfs.getOrDefault("dateStart", "1900-01-01").equals("")) sfs.put("dateStart", "1900-01-01");
+        if (sfs.getOrDefault("dateEnd", "1900-01-01").equals("")) sfs.put("dateEnd", "3021-01-01");
+        list = list.stream()
+                .filter(manifestation -> manifestation.getManifestation().getName().toLowerCase().contains(sfs.getOrDefault("name", manifestation.getManifestation().getName()).toLowerCase()))
+                //.filter(manifestation -> manifestation.getManifestation().getLocation().getAddress().toLowerCase().contains(sfs.getOrDefault("location", manifestation.getManifestation().getLocationAddres()).toLowerCase()))
+                .filter(manifestation -> manifestation.getManifestation().getDateTime().plusDays(1).toLocalDate().isAfter(LocalDate.parse(sfs.getOrDefault("dateStart", "1900-01-01"))))
+                .filter(manifestation -> manifestation.getManifestation().getDateTime().minusDays(1).toLocalDate().isBefore(LocalDate.parse(sfs.getOrDefault("dateEnd", "3021-01-01"))))
+                .filter(manifestation -> manifestation.getTicketPrice() >= Double.parseDouble(sfs.getOrDefault("priceStart", "0")))
+                .filter(manifestation -> manifestation.getTicketPrice() <= Double.parseDouble(sfs.getOrDefault("priceEnd", "99999999999")))
+                .collect(Collectors.toList());
+
+        if (sfs.containsKey("filterType") && !sfs.get("filterType").equals("ALL")) {
+            list = list.stream()
+                    .filter(manifestation -> manifestation.getTicketType().toString().equals(sfs.get("filterType")))
+                    .collect(Collectors.toList());
+        }
+
+
+        if (sfs.getOrDefault("sortDirection", "ASC").equals("DESC")) {
+            switch (sfs.getOrDefault("sortCrit", "NAME")) {
+                case "DATE":
+                    list.sort(Comparator.comparing(ticket -> ticket.getManifestation().getDateTime()));
+                    Collections.reverse(list);
+                    break;
+                case "TICKET_PRICE":
+                    list = list.stream()
+                            .sorted(Comparator.comparing(Ticket::getTicketPrice).reversed())
+                            .collect(Collectors.toList());
+                    break;
+                default:
+                    list.sort(Comparator.comparing(ticket -> ticket.getManifestation().getName()));
+                    Collections.reverse(list);
+                    break;
+            }
+        }
+        if (sfs.getOrDefault("sortDirection", "ASC").equals("ASC")) {
+            switch (sfs.getOrDefault("sortCrit", "NAME")) {
+                case "DATE":
+                    list.sort(Comparator.comparing(ticket -> ticket.getManifestation().getDateTime()));
+
+                    break;
+                case "TICKET_PRICE":
+                    list = list.stream()
+                            .sorted(Comparator.comparing(Ticket::getTicketPrice))
+                            .collect(Collectors.toList());
+                    break;
+                default:
+                    list.sort(Comparator.comparing(ticket -> ticket.getManifestation().getName()));
+                    break;
+            }
+        }
+        return list;
     }
 
     public List<Ticket> getTicketsForSeller(User currentUser) {

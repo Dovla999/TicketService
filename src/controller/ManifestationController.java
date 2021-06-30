@@ -31,7 +31,7 @@ public class ManifestationController {
         Map<String, String> sfs = new HashMap<>();
         request.queryParams()
                 .forEach(s -> sfs.put(s, request.queryParams(s)));
-        return gson.toJson(manifestationDao.getAllForAdmin(sfs));
+        return gson.toJson(manifestationDao.getAllForAllUsers(sfs));
 
 
     };

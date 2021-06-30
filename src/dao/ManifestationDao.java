@@ -76,8 +76,8 @@ public class ManifestationDao {
         var list = manifestations.stream()
                 .filter(manifestation -> manifestation.getName().toLowerCase().contains(sfs.getOrDefault("name", manifestation.getName()).toLowerCase()))
                 .filter(manifestation -> manifestation.getLocation().getAddress().toLowerCase().contains(sfs.getOrDefault("location", manifestation.getLocationAddres()).toLowerCase()))
-                .filter(manifestation -> manifestation.getDateTime().minusDays(1).toLocalDate().isAfter(LocalDate.parse(sfs.getOrDefault("dateStart", "1900-01-01"))))
-                .filter(manifestation -> manifestation.getDateTime().plusDays(1).toLocalDate().isBefore(LocalDate.parse(sfs.getOrDefault("dateEnd", "3021-01-01"))))
+                .filter(manifestation -> manifestation.getDateTime().plusDays(1).toLocalDate().isAfter(LocalDate.parse(sfs.getOrDefault("dateStart", "1900-01-01"))))
+                .filter(manifestation -> manifestation.getDateTime().minusDays(1).toLocalDate().isBefore(LocalDate.parse(sfs.getOrDefault("dateEnd", "3021-01-01"))))
                 .filter(manifestation -> manifestation.getTicketPrice() >= Double.parseDouble(sfs.getOrDefault("priceStart", "0")))
                 .filter(manifestation -> manifestation.getTicketPrice() <= Double.parseDouble(sfs.getOrDefault("priceEnd", "99999999999")))
                 .collect(Collectors.toList());
@@ -157,4 +157,14 @@ public class ManifestationDao {
                 .filter(manifestation -> !manifestation.isDeleted())
                 .collect(Collectors.toList()));
     }
+
+
+    public List<Manifestation> getAllForAllUsers(Map<String, String> sfs) {
+        return applySFS(sfs, manifestations.values()
+                .stream()
+                .filter(manifestation -> !manifestation.isDeleted())
+                .filter(Manifestation::getActive)
+                .collect(Collectors.toList()));
+    }
+
 }

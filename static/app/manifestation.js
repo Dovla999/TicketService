@@ -49,9 +49,9 @@ Vue.component('manifestation', {
             <div class="col"> <h3>{{manif.ticketPrice}} </h3> </div>
 
             <div class="col">
-                <h3>Capacity:</h3>
+                <h3>Tickets left:</h3>
             </div>
-            <div class="col"> <h3>{{manif.capacity}} </h3></div>
+            <div class="col"> <h3>{{manif.ticketsRemaining}} </h3></div>
         </div>
         <div class="row">
             <div class="col">

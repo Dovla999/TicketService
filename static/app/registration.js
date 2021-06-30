@@ -57,9 +57,18 @@ Vue.component("registration", {
 
         },
         register: function () {
+            let self = this;
             axios.post('users/newClient', JSON.stringify(this.user))
                 .then(function (response) {
                     alert(response.data);
+                    axios.get('users/currentUser')
+                        .then(res => {
+                            self.$root.$emit('loggingIn', res.data.userRole);
+                            window.location.href = "#/";
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
                 })
                 .catch(function (error) {
                     alert(error.response.data);

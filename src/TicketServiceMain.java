@@ -6,13 +6,13 @@ import dao.CommentDao;
 import dao.ManifestationDao;
 import dao.TicketDao;
 import dao.UserDao;
-import model.Location;
-import model.Manifestation;
-import model.User;
-import model.UserRole;
+import model.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static spark.Spark.*;
 
@@ -26,6 +26,21 @@ public class TicketServiceMain {
     public static void main(String[] args) {
 
         port(8080);
+
+
+        LoyaltyCategory lc1 = new LoyaltyCategory("BRONZE", 0, (double) 1);
+        LoyaltyCategory lc2 = new LoyaltyCategory("SILVER", 3000, 0.97);
+        LoyaltyCategory lc3 = new LoyaltyCategory("GOLDEN", 4000, 0.95);
+
+        List<LoyaltyCategory> lc = new ArrayList<>();
+        lc.add(lc1);
+        lc.add(lc2);
+        lc.add(lc3);
+
+        LoyaltyProgram.INSTANCE.setCategories(
+                lc
+        );
+
         setUpUsers();
         setUpManifestations();
         setUpTickets();
@@ -60,6 +75,7 @@ public class TicketServiceMain {
         post("/api/users/newSeller", UserController.newSeller);
         post("/api/users/logIn", UserController.logIn);
         get("/api/users/logout", UserController.logOut);
+        get("/api/users/categories", (request, response) -> LoyaltyProgram.INSTANCE.getCategories().stream().map(LoyaltyCategory::getName).collect(Collectors.toList()));
         before("/api/users/newClient", (request, response) -> {
             if (currentUser != null) halt();
         });
@@ -108,6 +124,8 @@ public class TicketServiceMain {
         admin.setUuid(UUID.randomUUID());
         admin.setPassword("admin");
         admin.setUsername("admin");
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
 
 
         UserController.userDao = new UserDao();
@@ -132,6 +150,8 @@ public class TicketServiceMain {
         admin.setUuid(UUID.randomUUID());
         admin.setPassword("seller");
         admin.setUsername("seller");
+        admin.setFirstName("Jovan");
+        admin.setLastName("Jovanovic");
 
 
         Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Concert", 600, LocalDateTime.now(),

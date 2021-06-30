@@ -8,7 +8,8 @@ public class Manifestation {
     private UUID uuid;
     private String name;
     private String type;
-    private Integer capacity;
+    private Integer capacity = 0;
+    private Integer ticketsRemaining;
     private LocalDateTime dateTime;
     private Double ticketPrice;
     private Boolean active;
@@ -71,7 +72,11 @@ public class Manifestation {
     }
 
     public void setCapacity(Integer capacity) {
+        if (this.ticketsRemaining == null) this.ticketsRemaining = capacity;
+        else this.ticketsRemaining += capacity - this.capacity;
+        if (this.ticketsRemaining < 0) ticketsRemaining = 0;
         this.capacity = capacity;
+
     }
 
     public LocalDateTime getDateTime() {
@@ -170,5 +175,13 @@ public class Manifestation {
         result = 31 * result + (rating != null ? rating.hashCode() : 0);
         result = 31 * result + (deleted ? 1 : 0);
         return result;
+    }
+
+    public Integer getTicketsRemaining() {
+        return ticketsRemaining;
+    }
+
+    public void setTicketsRemaining(Integer ticketsRemaining) {
+        this.ticketsRemaining = ticketsRemaining;
     }
 }
