@@ -67,8 +67,43 @@ public class ManifestationController {
             response.status(400);
             response.body("Check that you have filled in all fields");
         }
+        return response;
+    };
+
+    public static Route updateManifestation = (Request request, Response response) ->
+    {
+        response.status(200);
 
 
+        var body = gson.fromJson((request.body()), HashMap.class);
+
+        if (body.containsKey("capacity") &&
+                body.containsKey("name") &&
+                body.containsKey("type") &&
+                body.containsKey("image") &&
+                body.containsKey("ticketPrice") &&
+                body.containsKey("date") &&
+                body.containsKey("time") &&
+                body.containsKey("location") &&
+                body.containsKey("latitude") &&
+                body.containsKey("longitude")
+        ) {
+            Manifestation manifestation = manifestationDao.findById((String) body.get("uuid"));
+            manifestation.setCapacity(Integer.valueOf(body.get("capacity").toString()));
+            manifestation.setDeleted(false);
+            manifestation.setCreator(UserController.currentUser);
+            manifestation.setImage((String) body.get("image"));
+            manifestation.setLocation(new Location((Double) body.get("longitude"), (Double) body.get("latitude"), (String) body.get("location")));
+            manifestation.setName((String) body.get("name"));
+            manifestation.setTicketPrice(Double.valueOf(body.get("ticketPrice").toString()));
+            manifestation.setType((String) body.get("type"));
+            manifestation.setDateTime(LocalDateTime.of(LocalDate.parse((CharSequence) body.get("date")), LocalTime.parse((CharSequence) body.get("time"))));
+            response.status(200);
+            response.body("Manifestation updated");
+        } else {
+            response.status(400);
+            response.body("Check that you have filled in all fields");
+        }
         return response;
     };
 

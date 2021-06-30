@@ -31,6 +31,26 @@ public class TicketServiceMain {
         setUpTickets();
         setUpComments();
 
+        after((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "*");
+        });
+
+        options("/*", (request, response) -> {
+
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
         post("/api/comments/putComment", CommentController.putComment);
 
         get("/api/manifestations/all", ManifestationController.getAllManifestations);
@@ -43,10 +63,12 @@ public class TicketServiceMain {
             if (currentUser != null) halt();
         });
         get("/api/users/currentUser", UserController.loggedInUser);
+        put("api/users/update", "application/json", UserController.updateUser);
 
 
         post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
         get("/api/manifestations/sellerManifestations", ManifestationController.getSellerManifestations);
+        put("/api/manifestations/updateManifestation", ManifestationController.updateManifestation);
 
         post("/api/tickets/addToCart", TicketController.addToCart);
         get("/api/tickets/removeFromCart/:id", TicketController.removeFromCart);
@@ -61,7 +83,7 @@ public class TicketServiceMain {
 
         get("/api/comments/allForAdmin", CommentController.allForAdmin);
         get("/api/comments/allForSeller", CommentController.allForSeller);
-        get("/api/comments/activate/:id", CommentController.putActive);
+        put("/api/comments/activate/:id", CommentController.putActive);
         get("/api/comments/getForManifestation/:id", CommentController.getForManifestation);
 
 
@@ -69,14 +91,6 @@ public class TicketServiceMain {
 
         get("/api/manifestations/activate/:id", ManifestationController.changeActiveManifestation);
 
-
-        after((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-            response.header("Access-Control-Allow-Methods", "GET");
-            response.header("Access-Control-Allow-Methods", "POST");
-            response.header("Access-Control-Allow-Methods", "PUT");
-            response.header("Access-Control-Allow-Methods", "DELETE");
-        });
 
     }
 

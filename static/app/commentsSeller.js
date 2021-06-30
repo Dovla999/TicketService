@@ -26,10 +26,10 @@ Vue.component('sellercomments', {
                 <td> {{comment.text}} </td>
                 <td> {{comment.rating}} </td>
                 <td v-if="!comment.active">
-                    <button type="button" class="btn btn-danger" v-on:click="activate(comment.uuid)">Deactivate</button>
+                    <button type="button" class="btn btn-success" v-on:click="activate(comment.uuid)">Activate</button>
                 </td>
                 <td v-else>
-                <button type="button" class="btn btn-success" v-on:click="activate(comment.uuid)">Activate</button>
+                <button type="button" class="btn btn-danger" v-on:click="activate(comment.uuid)">Deactivate</button>
                 </td>
             </tr>
         </tbody>
@@ -40,7 +40,7 @@ Vue.component('sellercomments', {
     methods: {
         activate: function (id) {
             let self = this;
-            axios.get('comments/activate/' + id)
+            axios.put('comments/activate/' + id)
                 .then(res => {
                     self.comments = res.data;
                 })

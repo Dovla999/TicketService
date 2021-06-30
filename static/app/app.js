@@ -14,6 +14,7 @@ const Profile = {template: '<profile></profile>'}
 const ManifSeller = {template: '<manifseller></manifseller>'}
 const TicketsSeller = {template: '<tickets-seller></tickets-seller>'}
 const SellerComments = {template: '<sellercomments></sellercomments>'}
+const EditManif = {template: '<editmanif></editmanif>'}
 
 axios.defaults.baseURL = 'http://localhost:8080/api/'
 const router = new VueRouter({
@@ -34,7 +35,8 @@ const router = new VueRouter({
         {path: '/profile', component: Profile},
         {path: '/manifseller', component: ManifSeller},
         {path: '/sellertickets', component: TicketsSeller},
-        {path: '/sellercomments', component: SellerComments}
+        {path: '/sellercomments', component: SellerComments},
+        {path: '/editmanifestation/:id', name: 'EditManifestation', component: EditManif}
 
 
     ]

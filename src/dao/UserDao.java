@@ -72,4 +72,8 @@ public class UserDao {
         }
         return null;
     }
+
+    public User findById(String uuid) {
+        return users.getOrDefault(UUID.fromString(uuid), null);
+    }
 }

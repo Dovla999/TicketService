@@ -42,7 +42,7 @@ body {
     margin: 10, 10, 10, 10;
 }
 
-.form-control: focus {
+.form-control:focus {
     color: #000
 }
 

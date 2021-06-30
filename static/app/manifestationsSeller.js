@@ -42,7 +42,7 @@ Vue.component('manifseller', {
     `,
     methods: {
         details: function (id) {
-
+            this.$router.push({name: 'EditManifestation', params: {'id': id}});
         },
     },
     mounted() {
