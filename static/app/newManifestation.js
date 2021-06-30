@@ -108,11 +108,14 @@ Vue.component("newmanifestation", {
         addManif: function () {
             axios.post('manifestations/newManifestation', JSON.stringify(this.manif))
                 .then(res => {
-                    alert(response.data);
+                    alert(res.data);
+
                 })
                 .catch(err => {
-                    alert(error.response.data);
+                    alert(err.response.data);
+
                 })
+            window.location.href = "#/";
         },
         showOnMap: function () {
             let self = this;

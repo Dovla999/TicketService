@@ -33,9 +33,7 @@ public class CommentDao {
                 .filter(comment1 -> comment1.getCommenter().getUuid().equals(comment.getCommenter().getUuid())
                         && comment1.getManifestation().getUuid().equals(comment.getManifestation().getUuid()))
                 .findFirst();
-        if (c.isPresent()) {
-            comments.remove(c.get().getUuid());
-        }
+        c.ifPresent(value -> comments.remove(value.getUuid()));
         comments.put(comment.getUuid(), comment);
 
     }

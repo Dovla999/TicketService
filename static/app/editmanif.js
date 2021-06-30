@@ -120,7 +120,6 @@ Vue.component("editmanif", {
                         .then(res => {
                             self.manif = res.data;
                             self.manif.datetime = new Date(self.manif.dateTime);
-                            console.log(this.manif);
                             self.manif.image = 'data:image/png;base64,' + self.manif.image;
                             let tmpDate = new Date(this.manif.dateTime);
                             tmpDate.setTime(tmpDate.getTime() + (2 * 60 * 60 * 1000));
@@ -196,8 +195,8 @@ Vue.component("editmanif", {
                 this.manif = res.data;
                 this.manif.datetime = new Date(this.manif.dateTime);
                 console.log(this.manif);
-                this.manif.image = 'data:image/png;base64,' + this.manif.image;
-                this.image = this.manif.image;
+                this.manif.image = this.manif.image;
+                this.image = 'data:image/png;base64,' + this.manif.image;
                 let tmpDate = new Date(this.manif.dateTime);
                 tmpDate.setTime(tmpDate.getTime() + (2 * 60 * 60 * 1000));
                 this.manif.date = (tmpDate).toISOString().split('T')[0];

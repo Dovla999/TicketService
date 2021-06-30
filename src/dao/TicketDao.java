@@ -128,7 +128,7 @@ public class TicketDao {
                 .stream()
                 .filter(ticket -> !ticket.isDeleted())
                 .filter(ticket -> ticket.getOwner().getUuid().equals(UserController.currentUser.getUuid()))
-                .filter(ticket -> ticket.getManifestation().getDateTime().isBefore(LocalDateTime.now().plusDays(7)))
+                .filter(ticket -> ticket.getManifestation().getDateTime().isAfter(LocalDateTime.now().plusDays(7)))
                 .filter(Ticket::getActive)
                 .filter(ticket -> ticket.getUuid().equals(UUID.fromString(id)))
                 .findFirst()
