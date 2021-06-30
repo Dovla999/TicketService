@@ -2,9 +2,8 @@ package model;
 
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 public class User {
@@ -21,6 +20,17 @@ public class User {
     private transient Set<Comment> comments = new HashSet<>();
     private transient Set<Manifestation> manifestations = new HashSet<>();
     private LoyaltyCategory loyaltyCategory;
+    private List<LocalDateTime> cancellations = new ArrayList<>();
+    private boolean blocked = false;
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
     private boolean deleted = false;
     private boolean suspicious = false;
     private Double points = (double) 0;
@@ -30,7 +40,7 @@ public class User {
     }
 
     public void setPoints(Double points) {
-        this.points = points;
+        this.points = points < 0 ? 0 : points;
     }
 
     public boolean isDeleted() {
@@ -205,5 +215,22 @@ public class User {
 
     public void setSuspicious(boolean suspicious) {
         this.suspicious = suspicious;
+    }
+
+    public List<LocalDateTime> getCancellations() {
+        return cancellations;
+    }
+
+    public void setCancellations(List<LocalDateTime> cancellations) {
+        this.cancellations = cancellations;
+    }
+
+    public void checkSuspicious() {
+        if (
+                this.cancellations.stream()
+                        .filter(localDateTime -> localDateTime.isAfter(LocalDateTime.now().minusDays(30)))
+                        .count() > 5
+        )
+            this.suspicious = true;
     }
 }

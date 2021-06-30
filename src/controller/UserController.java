@@ -7,6 +7,7 @@ import dao.UserDao;
 import model.LoyaltyProgram;
 import model.User;
 import model.UserGender;
+import model.UserRole;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -74,11 +75,11 @@ public class UserController {
 
     public static Route newSeller = (Request request, Response response) -> {
 
-      /*  if (!currentUser.getUserRole().equals(UserRole.ADMIN)) {
+        if (!currentUser.getUserRole().equals(UserRole.ADMIN)) {
             response.body("User logged in");
             response.status(400);
             return response;
-        } */
+        }
 
 
         var body = gson.fromJson((request.body()), HashMap.class);
@@ -178,7 +179,7 @@ public class UserController {
             response.body(gson.toJson(user));
             response.status(200);
         } else {
-            response.body("Username and password incorrect");
+            response.body("Username and password incorrect or account blocked!");
             response.status(400);
         }
 
@@ -210,5 +211,10 @@ public class UserController {
         response.status(400);
         response.body("Can not delete admin");
         return response;
+    };
+
+    public static Route blockUser = (request, response) -> {
+        userDao.blockUser(request.params("id"));
+        return gson.toJson(userDao.getAllForAdmin(new HashMap<>()));
     };
 }

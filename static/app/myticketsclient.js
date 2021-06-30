@@ -19,7 +19,6 @@ Vue.component('myticketsclient', {
     <h3 style= "text-align: center;">
     My tickets
 </h3>
-<div>
 <div class="d-flex justify-content-center">
 <div class="input-group d-flex justify-content-center">
 <span class="input-group-text">Title</span>
@@ -81,8 +80,19 @@ Vue.component('myticketsclient', {
 </div>
     `,
     methods: {
-        cancel: function () {
+        cancel: function (id) {
+            let self = this;
+            axios.put('tickets/cancel/' + id)
+                .then(res => {
 
+                    self.tickets = res.data;
+                    for (t of this.tickets) {
+                        t.manifestation.datetime = (new Date(t.manifestation.dateTime)).toLocaleString();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         },
         search: function () {
             let self = this;

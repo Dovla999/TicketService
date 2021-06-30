@@ -42,6 +42,7 @@ public class UserDao {
 
         return users.values()
                 .stream()
+                .filter(user -> !user.isBlocked())
                 .filter(user -> !user.isDeleted())
                 .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
                 .findFirst().orElse(null);
@@ -163,8 +164,22 @@ public class UserDao {
 
 
     public List<User> getAllForAdmin(Map<String, String> sfs) {
+        users.values()
+                .forEach(User::checkSuspicious);
         return applySFS(sfs,
                 users.values().stream().filter(user -> !user.isDeleted())
                         .collect(Collectors.toList()));
+    }
+
+    public void blockUser(String id) {
+        users.values()
+                .stream()
+                .filter(user -> !user.isDeleted())
+                .filter(user -> !user.getUserRole().equals(UserRole.ADMIN))
+                .filter(user -> user.getUuid().equals(UUID.fromString(id)))
+                .findFirst()
+                .ifPresent(
+                        user -> user.setBlocked(!user.isBlocked())
+                );
     }
 }

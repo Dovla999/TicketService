@@ -122,7 +122,7 @@ public class TicketController {
                             ticket.setTicketPrice(ticket.getManifestation().getTicketPrice() * modifier);
                             ticket.getOwner().setPoints(
                                     ticket.getOwner().getPoints()
-                                            + ticket.getManifestation().getTicketPrice() * modifier
+                                            + ticket.getManifestation().getTicketPrice() / 1000 * 133 * modifier
                             );
                             ticket.getOwner().setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(ticket.getOwner().getPoints())));
                             ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() - 1);
@@ -139,6 +139,9 @@ public class TicketController {
 
         return response;
     };
+
+    public static Route cancelTicket = (request, response) -> gson.toJson(ticketDao.getTicketForCancel(request.params("id")));
+
 
     public static String randomString(int len) {
         return IntStream.range(0, len).mapToObj(i -> String.valueOf(AB.charAt(rnd.nextInt(AB.length())))).collect(Collectors.joining());

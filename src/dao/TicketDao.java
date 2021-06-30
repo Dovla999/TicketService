@@ -1,10 +1,13 @@
 package dao;
 
+import controller.UserController;
+import model.LoyaltyProgram;
 import model.Manifestation;
 import model.Ticket;
 import model.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,7 @@ public class TicketDao {
         return (int) tickets.values()
                 .stream()
                 .filter(ticket -> !ticket.isDeleted())
+                .filter(Ticket::getActive)
                 .filter(ticket -> ticket.getManifestation().getUuid().equals(manifestation.getUuid())).count();
     }
 
@@ -42,6 +46,7 @@ public class TicketDao {
         var list = tickets.values()
                 .stream()
                 .filter(ticket -> !ticket.isDeleted())
+                .filter(Ticket::getActive)
                 .filter(ticket -> ticket.getOwner().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
         if (sfs.getOrDefault("dateStart", "1900-01-01").equals("")) sfs.put("dateStart", "1900-01-01");
@@ -102,6 +107,7 @@ public class TicketDao {
         return tickets.values()
                 .stream()
                 .filter(ticket -> !ticket.isDeleted())
+                .filter(Ticket::getActive)
                 .filter(ticket -> ticket.getManifestation().getCreator().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
     }
@@ -115,5 +121,32 @@ public class TicketDao {
                         comment -> comment.setDeleted(true)
                 );
         return true;
+    }
+
+    public List<Ticket> getTicketForCancel(String id) {
+        tickets.values()
+                .stream()
+                .filter(ticket -> !ticket.isDeleted())
+                .filter(ticket -> ticket.getOwner().getUuid().equals(UserController.currentUser.getUuid()))
+                .filter(ticket -> ticket.getManifestation().getDateTime().isBefore(LocalDateTime.now().plusDays(7)))
+                .filter(Ticket::getActive)
+                .filter(ticket -> ticket.getUuid().equals(UUID.fromString(id)))
+                .findFirst()
+                .ifPresent(
+                        ticket -> {
+                            ticket.getOwner().setPoints(
+                                    ticket.getOwner().getPoints() - ticket.getTicketPrice() / 1000 * 133 * 4);
+                            ticket.setActive(false);
+                            ticket.getOwner().setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(ticket.getOwner().getPoints())));
+                            ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() + 1);
+                            ticket.getOwner().getCancellations().add(LocalDateTime.now());
+                        }
+                );
+        return tickets.values()
+                .stream()
+                .filter(ticket -> !ticket.isDeleted())
+                .filter(ticket -> ticket.getOwner().getUuid().equals(UserController.currentUser.getUuid()))
+                .filter(Ticket::getActive)
+                .collect(Collectors.toList());
     }
 }

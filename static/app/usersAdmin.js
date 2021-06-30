@@ -64,6 +64,8 @@ Vue.component('usersadmin', {
                 <th scope="col">Last name</th>
                 <th scope="col">Points</th>
                 <th scope="col">Type</th>
+                <th scope="col">Suspicious</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -76,6 +78,14 @@ Vue.component('usersadmin', {
                 <td> {{user.points}} </td>
                 <td v-if="user.loyaltyCategory"> {{user.loyaltyCategory.name}} </td>
                 <td v-else="user.loyaltyCategory"> No type </td>
+                <td v-if="user.suspicious"> YES</td>
+                <td v-else="user.suspicious"> NO </td>
+                <td v-if="user.blocked">
+                <button v-bind:hidden="user.userRole == 'ADMIN'" type="button" class="btn btn-success" v-on:click="blockUser(user.uuid)">Unblock</button>
+                </td>
+                <td v-else="user.blocked">
+                <button v-bind:hidden="user.userRole == 'ADMIN'" type="button" class="btn btn-danger" v-on:click="blockUser(user.uuid)">Block</button>
+                </td>
                 <td>
                 <button v-bind:hidden="user.userRole == 'ADMIN'" type="button" class="btn btn-danger" v-on:click="deleteUser(user.uuid)">Delete</button>
             </td>
@@ -112,6 +122,16 @@ Vue.component('usersadmin', {
                             }
                         }
                     );
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        },
+        blockUser: function (id) {
+            let self = this;
+            axios.put('users/block/' + id)
+                .then(res => {
+                    self.users = res.data;
                 })
                 .catch(err => {
                     console.error(err);

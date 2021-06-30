@@ -81,6 +81,7 @@ public class TicketServiceMain {
         });
         get("/api/users/currentUser", UserController.loggedInUser);
         put("api/users/update", "application/json", UserController.updateUser);
+        put("/api/users/block/:id", UserController.blockUser);
 
 
         delete("/api/manifestations/delete/:id", ManifestationController.deleteManifestation);
@@ -101,6 +102,8 @@ public class TicketServiceMain {
         get("/api/tickets/getCart", TicketController.getCart);
         get("/api/tickets/cartPrice", TicketController.cartPrice);
         get("/api/tickets/adminTickets", TicketController.adminTickets);
+        put("/api/tickets/cancel/:id", TicketController.cancelTicket);
+
         get("/api/users/allForAdmin", UserController.usersForAdmin);
 
 
@@ -127,9 +130,17 @@ public class TicketServiceMain {
         admin.setFirstName("admin");
         admin.setLastName("admin");
 
+        User buyer = new User();
+        buyer.setUserRole(UserRole.CLIENT);
+        buyer.setUuid(UUID.randomUUID());
+        buyer.setPassword("buyer");
+        buyer.setUsername("buyer");
+        buyer.setFirstName("buyer");
+        buyer.setLastName("buyer");
 
         UserController.userDao = new UserDao();
         UserController.userDao.getUsers().put(admin.getUuid(), admin);
+        UserController.userDao.getUsers().put(buyer.getUuid(), buyer);
         UserController.currentUser = currentUser;
     }
 
@@ -161,6 +172,9 @@ public class TicketServiceMain {
         Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Concert", 640, LocalDateTime.now(),
                 900.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", admin);
         ManifestationDao manifestationDao = new ManifestationDao();
+        manifestation.setTicketsRemaining(manifestation.getCapacity());
+        manifestation1.setTicketsRemaining(manifestation1.getCapacity());
+        manifestation2.setTicketsRemaining(manifestation2.getCapacity());
         manifestationDao.addManifestation(manifestation);
         manifestationDao.addManifestation(manifestation1);
         manifestationDao.addManifestation(manifestation2);
