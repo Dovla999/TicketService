@@ -130,6 +130,10 @@ public class Manifestation {
         this.rating = rating;
     }
 
+    public String getLocationAddres() {
+        return this.location.getAddress();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

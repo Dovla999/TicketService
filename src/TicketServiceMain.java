@@ -54,6 +54,7 @@ public class TicketServiceMain {
         post("/api/comments/putComment", CommentController.putComment);
 
         get("/api/manifestations/all", ManifestationController.getAllManifestations);
+        get("/api/manifestations/allForAdmin", ManifestationController.getAllManifestationsForAdmin);
 
         post("/api/users/newClient", UserController.newClient);
         post("/api/users/newSeller", UserController.newSeller);
@@ -74,6 +75,7 @@ public class TicketServiceMain {
         post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
         get("/api/manifestations/sellerManifestations", ManifestationController.getSellerManifestations);
         put("/api/manifestations/updateManifestation", ManifestationController.updateManifestation);
+        get("/api/manifestations/getTypes", ManifestationController.getTypes);
 
         post("/api/tickets/addToCart", TicketController.addToCart);
         get("/api/tickets/removeFromCart/:id", TicketController.removeFromCart);
@@ -132,12 +134,12 @@ public class TicketServiceMain {
         admin.setUsername("seller");
 
 
-        Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Koncert", 600, LocalDateTime.now(),
-                600.34, true, new Location(25.579977, 47.040182, "Novi Sad"), "none", admin);
-        Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Koncert", 300, LocalDateTime.now(),
-                600.34, true, new Location(9.419579, 51.179343, "Novi Sad"), "none", admin);
-        Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Koncert", 640, LocalDateTime.now(),
-                600.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", admin);
+        Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Concert", 600, LocalDateTime.now(),
+                700.34, true, new Location(25.579977, 47.040182, "Novi Sad"), "none", admin);
+        Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Theater", 300, LocalDateTime.now(),
+                800.34, true, new Location(9.419579, 51.179343, "Novi Sad"), "none", admin);
+        Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Concert", 640, LocalDateTime.now(),
+                900.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", admin);
         ManifestationDao manifestationDao = new ManifestationDao();
         manifestationDao.addManifestation(manifestation);
         manifestationDao.addManifestation(manifestation1);

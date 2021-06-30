@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,14 @@ public class ManifestationController {
             .create();
 
     public static Route getAllManifestations = (Request request, Response response)
-            -> gson.toJson(manifestationDao.allManifestations());
+            -> {
+        Map<String, String> sfs = new HashMap<>();
+        request.queryParams()
+                .forEach(s -> sfs.put(s, request.queryParams(s)));
+        return gson.toJson(manifestationDao.getAllForAdmin(sfs));
+
+
+    };
 
     public static Route newManifestation = (Request request, Response response) ->
     {
@@ -131,5 +139,17 @@ public class ManifestationController {
 
     public static Route deleteManifestation = (request, response) ->
             manifestationDao.deleteManifestation(request.params("id"));
+
+    public static Route getTypes = (request, response) ->
+            gson.toJson(manifestationDao.getTypes());
+
+    public static Route getAllManifestationsForAdmin = (request, response) -> {
+        Map<String, String> sfs = new HashMap<>();
+        request.queryParams()
+                .forEach(s -> sfs.put(s, request.queryParams(s)));
+        return TicketController.gson.toJson(manifestationDao.getAllForAdmin(sfs));
+
+
+    };
 
 }
