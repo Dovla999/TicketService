@@ -58,4 +58,7 @@ public class CommentController {
 
     public static Route getForManifestation = (Request request, Response response) ->
             gson.toJson(commentDao.getForManifestation(request.params("id")));
+
+    public static Route deleteComment = (request, response) ->
+            commentDao.deleteManifestation(request.params("id"));
 }

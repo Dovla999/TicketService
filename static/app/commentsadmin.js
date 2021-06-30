@@ -28,7 +28,7 @@ Vue.component('commentsadmin', {
                 <td> {{comment.rating}} </td>
                 <td> {{comment.active}} </td>
                 <td>
-                    <button type="button" class="btn btn-danger" v-on:click="Delete(comment.uuid)">Delete</button>
+                    <button type="button" class="btn btn-danger" v-on:click="deleteComment(comment.uuid)">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -37,8 +37,15 @@ Vue.component('commentsadmin', {
 </div>
     `,
     methods: {
-        delete: function () {
-
+        deleteComment: function () {
+            let self = this;
+            axios.delete('comments/delete/' + id)
+                .then(res => {
+                    self.comments = self.comments.filter(m => m.uuid !== id)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     },
     mounted() {

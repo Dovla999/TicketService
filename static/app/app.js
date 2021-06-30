@@ -37,13 +37,31 @@ const router = new VueRouter({
         {path: '/sellertickets', component: TicketsSeller},
         {path: '/sellercomments', component: SellerComments},
         {path: '/editmanifestation/:id', name: 'EditManifestation', component: EditManif}
-
-
     ]
 });
 
 
 var app = new Vue({
     router,
-    el: '#tickets'
+    el: '#tickets',
+    data: {
+        userRole: 'NONE'
+    },
+    methods: {
+        logout: function () {
+            let self = this;
+            this.$root.$emit('loggingIn', 'NONE');
+            axios
+                .get("users/logout")
+                .then(function (resp) {
+                });
+
+            window.location.href = "#/";
+        }
+    },
+    mounted() {
+        this.$root.$on('loggingIn', (role) => {
+            this.userRole = role;
+        })
+    }
 });

@@ -89,7 +89,7 @@ public class ManifestationController {
                 body.containsKey("longitude")
         ) {
             Manifestation manifestation = manifestationDao.findById((String) body.get("uuid"));
-            manifestation.setCapacity(Integer.valueOf(body.get("capacity").toString()));
+            manifestation.setCapacity(Integer.valueOf(body.get("capacity").toString().replace(".0", "")));
             manifestation.setDeleted(false);
             manifestation.setCreator(UserController.currentUser);
             manifestation.setImage((String) body.get("image"));
@@ -128,5 +128,8 @@ public class ManifestationController {
             gson.toJson(manifestationDao.getManifestationsForSeller(UserController.currentUser)
                     .stream().map(ManifSellerDto::new)
                     .collect(Collectors.toList()));
+
+    public static Route deleteManifestation = (request, response) ->
+            manifestationDao.deleteManifestation(request.params("id"));
 
 }

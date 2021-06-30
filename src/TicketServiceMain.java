@@ -66,6 +66,11 @@ public class TicketServiceMain {
         put("api/users/update", "application/json", UserController.updateUser);
 
 
+        delete("/api/manifestations/delete/:id", ManifestationController.deleteManifestation);
+        delete("/api/users/delete/:id", UserController.deleteUser);
+        delete("/api/tickets/delete/:id", TicketController.deleteTicket);
+        delete("/api/comments/delete/:id", CommentController.deleteComment);
+
         post("/api/manifestations/newManifestation", ManifestationController.newManifestation);
         get("/api/manifestations/sellerManifestations", ManifestationController.getSellerManifestations);
         put("/api/manifestations/updateManifestation", ManifestationController.updateManifestation);

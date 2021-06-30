@@ -76,4 +76,18 @@ public class UserDao {
     public User findById(String uuid) {
         return users.getOrDefault(UUID.fromString(uuid), null);
     }
+
+    public boolean deleteUser(String id) {
+        var user = users.values()
+                .stream()
+                .filter(user1 -> !user1.isDeleted())
+                .filter(user1 -> user1.getUuid().equals(UUID.fromString(id)))
+                .findFirst();
+        if (user.isPresent()) {
+            if (user.get().getUserRole().equals(UserRole.ADMIN)) return false;
+            user.get().setDeleted(true);
+        }
+        return true;
+
+    }
 }

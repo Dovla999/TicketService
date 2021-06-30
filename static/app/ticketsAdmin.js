@@ -19,6 +19,7 @@ Vue.component('ticketsadmin', {
                 <th scope="col">Date</th>
                 <th scope="col">ID</th>
                 <th scope="col">Owner</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,9 @@ Vue.component('ticketsadmin', {
                 <td>
                     {{ticket.owner.username}}
                 </td>
+                <td>
+                <button type="button" class="btn btn-danger" v-on:click="deleteTicket(ticket.uuid)">Delete</button>
+            </td>
             </tr>
         </tbody>
     </table>
@@ -38,8 +42,15 @@ Vue.component('ticketsadmin', {
 </div>
     `,
     methods: {
-        cancel: function () {
-
+        deleteTicket: function (id) {
+            let self = this;
+            axios.delete('tickets/delete/' + id)
+                .then(res => {
+                    self.tickets = self.tickets.filter(m => m.uuid !== id)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     },
     mounted() {

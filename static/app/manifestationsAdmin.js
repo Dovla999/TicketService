@@ -2,14 +2,42 @@ Vue.component('manifestationsadmin', {
     data: function () {
         return {
             manifs: [],
-            sfs: {}
+            sfs: {
+                name: '',
+                location: '',
+                dateStart: '',
+                dateEnd: '',
+                priceStart: 0,
+                priceEnd: 9999999,
+                sortCrit: 'NAME',
+                sortDirection: 'ASC',
+                filterType: 'NONE',
+                filterSoldOut: 'NO'
+            }
         }
     },
     template: `
     <div width="80%">
     <h3>
-    My tickets
-</h3>
+    All manifestations
+    </h3>
+    <input type="text" v-model="sfs.name" placeholder="name">
+    <input type="text" v-model="sfs.location" placeholder="location">
+    <input type="date" v-model="sfs.dateStart" >
+    <input type="date" v-model="sfs.dateEnd" >
+    <input type="number" v-model="sfs.priceStart" >
+    <input type="number" v-model="sfs.priceEnd" >
+    <select v-model="sfs.sortCrit">
+        <option value="NAME">Name</option>
+        <option value="DATE">Date</option>
+        <option value="TICKET_PRICE">Ticket price</option>
+        <option value="LOCATION">Location</option>
+   </select>
+   <select v-model="sfs.sortDirection">
+   <option value="ASC">Ascending</option>
+   <option value="DESC">Descending</option>
+</select>
+<br><br>
     <table class="table table-striped table-dark">
         <thead>
             <tr>
@@ -20,6 +48,7 @@ Vue.component('manifestationsadmin', {
                 <th scope="col">Type</th>
                 <th scope="col">Rating</th>
                 <th scope="col">Active</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +64,9 @@ Vue.component('manifestationsadmin', {
                 </td>
                 <td v-else>
                 <button type="button" class="btn btn-success" v-on:click="activate(manif.uuid)">Activate</button>
+                </td>
+                <td>
+                <button type="button" class="btn btn-danger" v-on:click="deleteManif(manif.uuid)">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -69,6 +101,16 @@ Vue.component('manifestationsadmin', {
                     console.error(err);
                 })
 
+        },
+        deleteManif: function (id) {
+            let self = this;
+            axios.delete('manifestations/delete/' + id)
+                .then(res => {
+                    self.manifs = self.manifs.filter(m => m.uuid !== id)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     },
     mounted() {

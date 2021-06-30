@@ -71,4 +71,15 @@ public class CommentDao {
                 .filter(Comment::isActive)
                 .collect(Collectors.toList());
     }
+
+    public boolean deleteManifestation(String id) {
+        comments.values()
+                .stream()
+                .filter(comment -> comment.getUuid().equals(UUID.fromString(id)))
+                .findFirst()
+                .ifPresent(
+                        comment -> comment.setDeleted(true)
+                );
+        return true;
+    }
 }

@@ -193,4 +193,14 @@ public class UserController {
     public static Route usersForAdmin = (Request request, Response response)
             ->
             gson.toJson(userDao.getForAdmin());
+
+    public static Route deleteUser = (request, response) -> {
+        if (userDao.deleteUser(request.params("id"))) {
+            response.status(200);
+            return response;
+        }
+        response.status(400);
+        response.body("Can not delete admin");
+        return response;
+    };
 }

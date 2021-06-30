@@ -1,7 +1,8 @@
 Vue.component('homepage', {
     data: function () {
         return {
-            ms: {}
+            ms: {},
+            sfs: {}
         }
     },
     template: `

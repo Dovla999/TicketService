@@ -148,4 +148,7 @@ public class TicketController {
     public static Route getTicketsForSeller = (Request request, Response response) ->
             gson.toJson(ticketDao.getTicketsForSeller(UserController.currentUser));
 
+    public static Route deleteTicket = (request, response) ->
+            ticketDao.deleteTicket(request.params("id"));
+
 }

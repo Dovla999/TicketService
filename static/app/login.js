@@ -38,9 +38,17 @@ Vue.component("login", {
 
         },
         login: function () {
+            let self = this;
             axios.post('users/logIn', JSON.stringify(this.user))
                 .then(function (response) {
-
+                    axios.get('users/currentUser')
+                        .then(res => {
+                            self.$root.$emit('loggingIn', res.data.userRole);
+                            window.location.href = "#/";
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
                 })
                 .catch(function (error) {
                     alert(error.response.data);

@@ -54,4 +54,15 @@ public class TicketDao {
                 .filter(ticket -> ticket.getManifestation().getCreator().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
     }
+
+    public boolean deleteTicket(String id) {
+        tickets.values()
+                .stream()
+                .filter(comment -> comment.getUuid().equals(UUID.fromString(id)))
+                .findFirst()
+                .ifPresent(
+                        comment -> comment.setDeleted(true)
+                );
+        return true;
+    }
 }

@@ -18,6 +18,7 @@ Vue.component('usersadmin', {
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
                 <th scope="col">Points</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +28,9 @@ Vue.component('usersadmin', {
                 <td> {{user.firstName}} </td>
                 <td> {{user.lastName}} </td>
                 <td> {{user.points}} </td>
-
+                <td>
+                <button type="button" class="btn btn-danger" v-on:click="deleteUser(user.uuid)">Delete</button>
+            </td>
             </tr>
         </tbody>
     </table>
@@ -35,8 +38,15 @@ Vue.component('usersadmin', {
 </div>
     `,
     methods: {
-        cancel: function () {
-
+        deleteUser: function () {
+            let self = this;
+            axios.delete('users/delete/' + id)
+                .then(res => {
+                    self.users = self.users.filter(m => m.uuid !== id)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     },
     mounted() {

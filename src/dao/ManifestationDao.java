@@ -57,4 +57,9 @@ public class ManifestationDao {
                 .filter(manifestation -> manifestation.getCreator().getUuid().equals(currentUser.getUuid()))
                 .collect(Collectors.toList());
     }
+
+    public boolean deleteManifestation(String id) {
+        findById(id).setDeleted(true);
+        return true;
+    }
 }
