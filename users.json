@@ -1,0 +1,64 @@
+{
+  "users": {
+    "7686eb1c-10a2-456d-9f85-ef7ee28e8fb6": {
+      "uuid": "7686eb1c-10a2-456d-9f85-ef7ee28e8fb6",
+      "username": "seller",
+      "password": "seller",
+      "firstName": "Jovanaa",
+      "lastName": "Jovanovicaa",
+      "userGender": "FEMALE",
+      "birthDate": {
+        "year": 2021,
+        "month": 6,
+        "day": 29
+      },
+      "userRole": "SELLER",
+      "loyaltyCategory": {
+        "name": "BRONZE",
+        "points": 0,
+        "discount": 1.0
+      },
+      "cancellations": [],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": false,
+      "points": 0.0
+    },
+    "a83d1293-b5ea-457d-a7ce-43fa0b0f5b4b": {
+      "uuid": "a83d1293-b5ea-457d-a7ce-43fa0b0f5b4b",
+      "username": "buyer",
+      "password": "buyer",
+      "firstName": "buyer",
+      "lastName": "buyer",
+      "userRole": "CLIENT",
+      "loyaltyCategory": {
+        "name": "BRONZE",
+        "points": 0,
+        "discount": 1.0
+      },
+      "cancellations": [],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": false,
+      "points": 0.0
+    },
+    "34c946c8-ff07-4400-87c9-b6e38eea4bec": {
+      "uuid": "34c946c8-ff07-4400-87c9-b6e38eea4bec",
+      "username": "admin",
+      "password": "admin",
+      "firstName": "admin",
+      "lastName": "admin",
+      "userRole": "ADMIN",
+      "loyaltyCategory": {
+        "name": "BRONZE",
+        "points": 0,
+        "discount": 1.0
+      },
+      "cancellations": [],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": false,
+      "points": 0.0
+    }
+  }
+}

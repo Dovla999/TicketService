@@ -57,6 +57,7 @@ public class TicketServiceMain {
         setUpManifestations();
         setUpTickets();
         setUpComments();
+        fixUpRelations();
 
         after((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -131,7 +132,7 @@ public class TicketServiceMain {
 
         get("/api/manifestations/activate/:id", ManifestationController.changeActiveManifestation);
 
-        Thread t = new Thread(() -> {
+      /*  Thread t = new Thread(() -> {
             try {
                 while (true) {
                     try {
@@ -144,9 +145,56 @@ public class TicketServiceMain {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
-        //t.start();
+        }); */
+        afterAfter((request, response) -> saveData());
 
+
+    }
+
+    private static void fixUpRelations() {
+        UserController.userDao.getUsers().values()
+                .forEach(user ->
+                {
+                    user.setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(user.getPoints())));
+                    TicketController.ticketDao.getTickets().values()
+                            .forEach(
+                                    ticket -> {
+                                        if (ticket.getOwner().getUuid().equals(user.getUuid())) {
+                                            user.getTickets().add(ticket);
+                                            ticket.setOwner(user);
+                                            ticket.setManifestation(ManifestationController.manifestationDao
+                                                    .getManifestations()
+                                                    .values()
+                                                    .stream()
+                                                    .filter(manifestation -> manifestation.getUuid().equals(ticket.getManifestation().getUuid()))
+                                                    .findFirst()
+                                                    .orElse(null));
+                                        }
+                                    }
+                            );
+                    ManifestationController.manifestationDao.getManifestations().values()
+                            .forEach(
+                                    manifestation -> {
+                                        if (manifestation.getCreator().getUuid().equals(user.getUuid())) {
+                                            user.getManifestations().add(manifestation);
+                                            manifestation.setCreator(user);
+                                        }
+                                    }
+                            );
+                    CommentController.commentDao.getComments().values()
+                            .forEach(comment -> {
+                                if (comment.getCommenter().getUuid().equals(user.getUuid())) {
+                                    user.getComments().add(comment);
+                                    comment.setCommenter(user);
+                                    comment.setManifestation(ManifestationController.manifestationDao
+                                            .getManifestations()
+                                            .values().stream()
+                                            .filter(manifestation -> manifestation.getUuid().equals(comment.getManifestation().getUuid()))
+                                            .findFirst()
+                                            .orElse(null));
+                                }
+                            });
+                });
 
     }
 
@@ -169,7 +217,6 @@ public class TicketServiceMain {
 
         UserController.userDao = gson.fromJson(new BufferedReader(new FileReader("users.json"))
                 .lines().collect(Collectors.joining(System.lineSeparator())), UserDao.class);
-        ;
         UserController.currentUser = currentUser;
     }
 
@@ -178,7 +225,7 @@ public class TicketServiceMain {
             CommentController.commentDao = gson.fromJson(new BufferedReader(new FileReader("comments.json"))
                     .lines().collect(Collectors.joining(System.lineSeparator())), CommentDao.class);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            CommentController.commentDao = new CommentDao();
         }
 
     }
@@ -188,7 +235,7 @@ public class TicketServiceMain {
             TicketController.ticketDao = gson.fromJson(new BufferedReader(new FileReader("tickets.json"))
                     .lines().collect(Collectors.joining(System.lineSeparator())), TicketDao.class);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            TicketController.ticketDao = new TicketDao();
         }
 
 
@@ -201,8 +248,8 @@ public class TicketServiceMain {
             ManifestationController.manifestationDao = gson.fromJson(new BufferedReader(new FileReader("manifestations.json"))
                     .lines().collect(Collectors.joining(System.lineSeparator())), ManifestationDao.class);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            ManifestationController.manifestationDao = new ManifestationDao();
         }
-        ;
+
     }
 }

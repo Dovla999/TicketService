@@ -128,7 +128,7 @@ Vue.component('homepage', {
                 self.ms = res.data;
                 for (item of self.ms) {
                     item.datetime = new Date(item.dateTime);
-
+                    if (item.rating === 0) item.rating = 'No rating yet';
                     item.image = 'data:image/png;base64,' + item.image;
 
                 }
