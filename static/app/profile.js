@@ -2,7 +2,8 @@ Vue.component('profile', {
     data: function () {
         return {
             user: {
-                birthdate: new Date().toISOString().split('T')[0]
+                birthdate: new Date().toISOString().split('T')[0],
+                loyaltyCategory: {}
             }
         }
     },
@@ -34,6 +35,18 @@ Vue.component('profile', {
                     <div class="col"><h3>Birthdate:</h3></div>
                     <div class="col"> <input type="date" id="birthday" v-model="user.birthdate"> </div>
         </div>
+        <div v-if="user.userRole==='CLIENT'" class="row">	
+        <br>
+        <div class="col"> </div>
+    
+        <div class="col">
+        <h3>Loyalty category: {{user.loyaltyCategory.name}}</h3> 
+        <h3>Discount: {{(1-user.loyaltyCategory.discount).toFixed(2)}}%</h3>
+        <h3>Points: {{user.points.toFixed(2)}}</h3></div>
+
+        <div class="col"></div>
+
+</div>
           <div class="row" style="padding: 40px;">
             <div class="col"></div>
             <div class="col"></div>

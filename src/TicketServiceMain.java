@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controller.CommentController;
 import controller.ManifestationController;
 import controller.TicketController;
@@ -6,12 +8,13 @@ import dao.CommentDao;
 import dao.ManifestationDao;
 import dao.TicketDao;
 import dao.UserDao;
-import model.*;
+import model.LoyaltyCategory;
+import model.LoyaltyProgram;
+import model.User;
 
-import java.time.LocalDateTime;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static spark.Spark.*;
@@ -22,11 +25,20 @@ public class TicketServiceMain {
 
     public static User currentUser = null;
 
+    static Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
 
         port(8080);
 
+        try {
+            staticFiles.externalLocation(new File("./static").getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         LoyaltyCategory lc1 = new LoyaltyCategory("BRONZE", 0, (double) 1);
         LoyaltyCategory lc2 = new LoyaltyCategory("SILVER", 3000, 0.97);
@@ -115,85 +127,82 @@ public class TicketServiceMain {
         get("/api/comments/getForManifestation/:id", CommentController.getForManifestation);
 
 
-
         get("api/manifestations/:id", ManifestationController.getOneManifestation);
 
         get("/api/manifestations/activate/:id", ManifestationController.changeActiveManifestation);
 
+        Thread t = new Thread(() -> {
+            try {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                        saveData();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        //t.start();
+
 
     }
 
-    private static void setUpUsers() {
+    private static void saveData() throws IOException {
+        FileWriter fw = new FileWriter("users.json");
+        fw.write(gson.toJson(UserController.userDao));
+        fw.close();
+        fw = new FileWriter("manifestations.json");
+        fw.write(gson.toJson(ManifestationController.manifestationDao));
+        fw.close();
+        fw = new FileWriter("comments.json");
+        fw.write(gson.toJson(CommentController.commentDao));
+        fw.close();
+        fw = new FileWriter("tickets.json");
+        fw.write(gson.toJson(TicketController.ticketDao));
+        fw.close();
+    }
 
-        User admin = new User();
-        admin.setUserRole(UserRole.ADMIN);
-        admin.setUuid(UUID.randomUUID());
-        admin.setPassword("admin");
-        admin.setUsername("admin");
-        admin.setFirstName("admin");
-        admin.setLastName("admin");
+    private static void setUpUsers() throws IOException {
 
-        User buyer = new User();
-        buyer.setUserRole(UserRole.CLIENT);
-        buyer.setUuid(UUID.randomUUID());
-        buyer.setPassword("buyer");
-        buyer.setUsername("buyer");
-        buyer.setFirstName("buyer");
-        buyer.setLastName("buyer");
-
-        UserController.userDao = new UserDao();
-        UserController.userDao.getUsers().put(admin.getUuid(), admin);
-        UserController.userDao.getUsers().put(buyer.getUuid(), buyer);
+        UserController.userDao = gson.fromJson(new BufferedReader(new FileReader("users.json"))
+                .lines().collect(Collectors.joining(System.lineSeparator())), UserDao.class);
+        ;
         UserController.currentUser = currentUser;
     }
 
     private static void setUpComments() {
-        CommentController.commentDao = new CommentDao();
+        try {
+            CommentController.commentDao = gson.fromJson(new BufferedReader(new FileReader("comments.json"))
+                    .lines().collect(Collectors.joining(System.lineSeparator())), CommentDao.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private static void setUpTickets() {
-        Ticket ticket = new Ticket();
-        ticket.setUuid(UUID.randomUUID());
-        ticket.setTicketType(TicketType.REGULAR);
-        ticket.setDeleted(false);
-        ticket.setActive(true);
-        ticket.setOwner(UserController.userDao.getUsers().values().stream().filter(user -> user.getUserRole().equals(UserRole.CLIENT)).findAny().get());
-        ticket.getOwner().getTickets().add(ticket);
-        ticket.setManifestation(ManifestationController.manifestationDao.getManifestations().values().stream().filter(manifestation -> manifestation.getName().equals("Nightwish")).findAny().get());
-        ticket.setTicketPrice(ticket.getManifestation().getTicketPrice());
-        ticket.setId(TicketController.randomString(10));
-        ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() - 1);
-        TicketController.ticketDao = new TicketDao();
-        TicketController.ticketDao.addTicket(ticket);
+        try {
+            TicketController.ticketDao = gson.fromJson(new BufferedReader(new FileReader("tickets.json"))
+                    .lines().collect(Collectors.joining(System.lineSeparator())), TicketDao.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     public static void setUpManifestations() {
 
-        User admin = new User();
-        admin.setUserRole(UserRole.SELLER);
-        admin.setUuid(UUID.randomUUID());
-        admin.setPassword("seller");
-        admin.setUsername("seller");
-        admin.setFirstName("Jovan");
-        admin.setLastName("Jovanovic");
 
-
-        Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Concert", 600, LocalDateTime.now().plusDays(5),
-                700.34, true, new Location(25.579977, 47.040182, "Novi Sad"), "none", admin);
-        Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Theater", 300, LocalDateTime.now().minusDays(5),
-                800.34, true, new Location(9.419579, 51.179343, "Novi Sad"), "none", admin);
-        Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Concert", 640, LocalDateTime.now().plusDays(10),
-                900.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", admin);
-        ManifestationDao manifestationDao = new ManifestationDao();
-        manifestation.setTicketsRemaining(manifestation.getCapacity());
-        manifestation1.setTicketsRemaining(manifestation1.getCapacity());
-        manifestation2.setTicketsRemaining(manifestation2.getCapacity());
-        manifestationDao.addManifestation(manifestation);
-        manifestationDao.addManifestation(manifestation1);
-        manifestationDao.addManifestation(manifestation2);
-        UserController.userDao.getUsers().put(admin.getUuid(), admin);
-        ManifestationController.manifestationDao = manifestationDao;
+        try {
+            ManifestationController.manifestationDao = gson.fromJson(new BufferedReader(new FileReader("manifestations.json"))
+                    .lines().collect(Collectors.joining(System.lineSeparator())), ManifestationDao.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ;
     }
 }
