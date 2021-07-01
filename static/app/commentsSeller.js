@@ -6,8 +6,8 @@ Vue.component('sellercomments', {
     },
     template: `
     <div width="80%">
-    <h3>
-    My tickets
+    <h3 style= "text-align: center;">
+    Comments 
 </h3>
     <table class="table table-striped table-dark">
         <thead>
@@ -25,10 +25,10 @@ Vue.component('sellercomments', {
                 <td> {{comment.commenter.username}} </td>
                 <td> {{comment.text}} </td>
                 <td> {{comment.rating}} </td>
-                <td v-if="!comment.active">
+                <td v-if="comment.active===false">
                     <button type="button" class="btn btn-success" v-on:click="activate(comment.uuid)">Activate</button>
                 </td>
-                <td v-else>
+                <td v-if="comment.active===true">
                 <button type="button" class="btn btn-danger" v-on:click="activate(comment.uuid)">Deactivate</button>
                 </td>
             </tr>
@@ -53,9 +53,6 @@ Vue.component('sellercomments', {
         axios.get('comments/allForSeller')
             .then(res => {
                 this.comments = res.data;
-                this.comments.forEach(c => {
-                    c.active = c.active ? 'YES' : 'NO';
-                });
             })
             .catch(err => {
                 console.error(err);

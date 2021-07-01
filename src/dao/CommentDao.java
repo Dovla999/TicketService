@@ -1,6 +1,7 @@
 package dao;
 
 import model.Comment;
+import model.Manifestation;
 import model.User;
 
 import java.util.HashMap;
@@ -57,7 +58,13 @@ public class CommentDao {
         comments.values()
                 .stream()
                 .filter(comment -> comment.getUuid().equals(UUID.fromString(id)))
-                .forEach(comment -> comment.setActive(!comment.isActive()));
+                .findAny()
+                .ifPresent(comment -> {
+                    comment.setActive(!comment.isActive());
+                    recalculateRating(comment.getManifestation());
+                });
+
+
         return commentsSeller(user);
     }
 
@@ -76,8 +83,20 @@ public class CommentDao {
                 .filter(comment -> comment.getUuid().equals(UUID.fromString(id)))
                 .findFirst()
                 .ifPresent(
-                        comment -> comment.setDeleted(true)
+                        comment -> {
+                            comment.setDeleted(true);
+                            recalculateRating(comment.getManifestation());
+                        }
                 );
         return true;
+    }
+
+    private void recalculateRating(Manifestation manifestation) {
+
+        manifestation.setRating((double) Math.round(comments.values()
+                .stream()
+                .filter(comment -> comment.getManifestation().getUuid().equals(manifestation.getUuid()))
+                .filter(comment -> comment.isActive() && !comment.isDeleted())
+                .collect(Collectors.averagingDouble(Comment::getRating)) * 100) / 100);
     }
 }

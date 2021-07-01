@@ -140,6 +140,7 @@ public class TicketDao {
                             ticket.getOwner().setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(ticket.getOwner().getPoints())));
                             ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() + 1);
                             ticket.getOwner().getCancellations().add(LocalDateTime.now());
+                            ticket.getOwner().getTickets().remove(ticket);
                         }
                 );
         return tickets.values()

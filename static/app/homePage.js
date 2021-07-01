@@ -73,7 +73,8 @@ Vue.component('homepage', {
                         <p class="card-text"> {{m.type}} </p>
                         <p class="card-text" v-if="m.location" > {{m.location.address}} , {{m.datetime.toLocaleString()}} </p>
                         <p class="card-text">Regular ticket price :  {{m.ticketPrice}} </p>
-                        <p class="card-text" v-if="m.rating!=0"><small class="text-muted">{{m.rating}}</small></p>
+                        <p class="card-text" v-if="m.rating!=0"><small class="text-muted">{{m.rating}} &#9733</small></p>
+                        <p class="card-text" v-if="m.rating==0"><small class="text-muted"><br></small></p>
                         <button type="button" class="btn btn-primary" v-on:click="showDetails(m.uuid)">Details</button>
                         </div>
                 </div>

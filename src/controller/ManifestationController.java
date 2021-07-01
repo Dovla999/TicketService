@@ -149,7 +149,10 @@ public class ManifestationController {
                 .forEach(s -> sfs.put(s, request.queryParams(s)));
         return TicketController.gson.toJson(manifestationDao.getAllForAdmin(sfs));
 
-
     };
+
+    public static Route canComment = (request, response) -> manifestationDao.isCommentable(UserController.currentUser, request.params("id"));
+
+    public static Route canBuyTickets = (request, response) -> manifestationDao.ticketsAvailable(UserController.currentUser, request.params("id"));
 
 }

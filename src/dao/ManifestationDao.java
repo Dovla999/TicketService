@@ -3,8 +3,10 @@ package dao;
 import controller.TicketController;
 import model.Manifestation;
 import model.User;
+import model.UserRole;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -166,5 +168,36 @@ public class ManifestationDao {
                 .filter(Manifestation::getActive)
                 .collect(Collectors.toList()));
     }
+
+    public boolean isCommentable(User currentUser, String id) {
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.CLIENT)) return false;
+        var ret = manifestations.values()
+                .stream()
+                .filter(manifestation -> manifestation.getUuid().equals(UUID.fromString(id)))
+                .filter(manifestation -> !manifestation.isDeleted() && manifestation.getActive())
+                .filter(manifestation -> manifestation.getDateTime().isBefore(LocalDateTime.now()))
+                .findFirst();
+        if (ret.isPresent()) {
+            var ticket = TicketController.ticketDao
+                    .getTicketsForUser(currentUser, new HashMap<>())
+                    .stream()
+                    .filter(ticket1 -> ticket1.getManifestation().getUuid().equals(UUID.fromString(id)))
+                    .findAny();
+            return ticket.isPresent();
+        }
+        return false;
+    }
+
+    public boolean ticketsAvailable(User currentUser, String id) {
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.CLIENT)) return false;
+        return manifestations.values()
+                .stream()
+                .filter(manifestation -> !manifestation.isDeleted())
+                .filter(Manifestation::getActive)
+                .filter(manifestation -> manifestation.getTicketsRemaining() > 0)
+                .filter(manifestation -> manifestation.getDateTime().isAfter(LocalDateTime.now()))
+                .anyMatch(manifestation -> manifestation.getUuid().equals(UUID.fromString(id)));
+    }
+
 
 }

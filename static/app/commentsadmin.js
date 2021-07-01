@@ -6,8 +6,8 @@ Vue.component('commentsadmin', {
     },
     template: `
     <div width="80%">
-    <h3>
-    My tickets
+    <h3 style= "text-align: center;>
+    Comments
 </h3>
     <table class="table table-striped table-dark">
         <thead>

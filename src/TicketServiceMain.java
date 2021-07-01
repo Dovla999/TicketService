@@ -93,6 +93,8 @@ public class TicketServiceMain {
         get("/api/manifestations/sellerManifestations", ManifestationController.getSellerManifestations);
         put("/api/manifestations/updateManifestation", ManifestationController.updateManifestation);
         get("/api/manifestations/getTypes", ManifestationController.getTypes);
+        get("/api/manifestations/isCommentable/:id", ManifestationController.canComment);
+        get("/api/manifestations/canBuyTickets/:id", ManifestationController.canBuyTickets);
 
         post("/api/tickets/addToCart", TicketController.addToCart);
         get("/api/tickets/removeFromCart/:id", TicketController.removeFromCart);
@@ -111,6 +113,7 @@ public class TicketServiceMain {
         get("/api/comments/allForSeller", CommentController.allForSeller);
         put("/api/comments/activate/:id", CommentController.putActive);
         get("/api/comments/getForManifestation/:id", CommentController.getForManifestation);
+
 
 
         get("api/manifestations/:id", ManifestationController.getOneManifestation);
@@ -150,7 +153,19 @@ public class TicketServiceMain {
     }
 
     private static void setUpTickets() {
+        Ticket ticket = new Ticket();
+        ticket.setUuid(UUID.randomUUID());
+        ticket.setTicketType(TicketType.REGULAR);
+        ticket.setDeleted(false);
+        ticket.setActive(true);
+        ticket.setOwner(UserController.userDao.getUsers().values().stream().filter(user -> user.getUserRole().equals(UserRole.CLIENT)).findAny().get());
+        ticket.getOwner().getTickets().add(ticket);
+        ticket.setManifestation(ManifestationController.manifestationDao.getManifestations().values().stream().filter(manifestation -> manifestation.getName().equals("Nightwish")).findAny().get());
+        ticket.setTicketPrice(ticket.getManifestation().getTicketPrice());
+        ticket.setId(TicketController.randomString(10));
+        ticket.getManifestation().setTicketsRemaining(ticket.getManifestation().getTicketsRemaining() - 1);
         TicketController.ticketDao = new TicketDao();
+        TicketController.ticketDao.addTicket(ticket);
 
     }
 
@@ -165,11 +180,11 @@ public class TicketServiceMain {
         admin.setLastName("Jovanovic");
 
 
-        Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Concert", 600, LocalDateTime.now(),
+        Manifestation manifestation = new Manifestation(UUID.randomUUID(), "Within Temptation", "Concert", 600, LocalDateTime.now().plusDays(5),
                 700.34, true, new Location(25.579977, 47.040182, "Novi Sad"), "none", admin);
-        Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Theater", 300, LocalDateTime.now(),
+        Manifestation manifestation1 = new Manifestation(UUID.randomUUID(), "Nightwish", "Theater", 300, LocalDateTime.now().minusDays(5),
                 800.34, true, new Location(9.419579, 51.179343, "Novi Sad"), "none", admin);
-        Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Concert", 640, LocalDateTime.now(),
+        Manifestation manifestation2 = new Manifestation(UUID.randomUUID(), "Tarja", "Concert", 640, LocalDateTime.now().plusDays(10),
                 900.34, true, new Location(52.637814, 57.891497, "Novi Sad"), "none", admin);
         ManifestationDao manifestationDao = new ManifestationDao();
         manifestation.setTicketsRemaining(manifestation.getCapacity());
