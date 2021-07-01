@@ -4,16 +4,14 @@ import Util.LocalDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.UserDao;
-import model.LoyaltyProgram;
-import model.User;
-import model.UserGender;
-import model.UserRole;
+import model.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +60,9 @@ public class UserController {
         if (addedUser != null) {
             response.body("Registration successful");
             response.status(200);
+            request.session().attribute("currentUser", addedUser);
             currentUser = addedUser;
+            request.session().attribute("cart", new ArrayList<Ticket>());
         } else {
             message = "Username already exists";
             response.body(message);
@@ -175,7 +175,11 @@ public class UserController {
                 body.getOrDefault("password", "-1").toString());
 
         if (user != null) {
+            request.session().attribute("currentUser", user);
             currentUser = user;
+            if (user.getUserRole().equals(UserRole.CLIENT)) {
+                request.session().attribute("cart", new ArrayList<Ticket>());
+            }
             response.body(gson.toJson(user));
             response.status(200);
         } else {
@@ -189,7 +193,7 @@ public class UserController {
     public static Route logOut = (Request request, Response response)
             ->
     {
-        currentUser = null;
+        request.session().invalidate();
         return response;
     };
 

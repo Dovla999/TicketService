@@ -11,6 +11,7 @@ import dao.UserDao;
 import model.LoyaltyCategory;
 import model.LoyaltyProgram;
 import model.User;
+import model.UserRole;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -58,6 +59,14 @@ public class TicketServiceMain {
         setUpTickets();
         setUpComments();
         fixUpRelations();
+
+
+        before((request, response) -> {
+            UserController.currentUser = request.session().attribute("currentUser");
+            if (UserController.currentUser != null && UserController.currentUser.getUserRole().equals(UserRole.CLIENT))
+                TicketController.cart = request.session().attribute("cart");
+            else TicketController.cart = new ArrayList<>();
+        });
 
         after((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -155,7 +164,8 @@ public class TicketServiceMain {
         UserController.userDao.getUsers().values()
                 .forEach(user ->
                 {
-                    user.setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(user.getPoints())));
+                    if (user.getUserRole().equals(UserRole.CLIENT))
+                        user.setLoyaltyCategory(LoyaltyProgram.INSTANCE.getLoyaltyCategoryByPoints((int) Math.round(user.getPoints())));
                     TicketController.ticketDao.getTickets().values()
                             .forEach(
                                     ticket -> {
