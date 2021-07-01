@@ -30,6 +30,12 @@ public class TicketServiceMain {
             .setPrettyPrinting()
             .create();
 
+    static Gson gsonImage = new GsonBuilder()
+            .addSerializationExclusionStrategy(TicketController.strategy)
+            .addDeserializationExclusionStrategy(TicketController.strategy)
+            .setPrettyPrinting()
+            .create();
+
 
     public static void main(String[] args) throws IOException {
 
@@ -216,10 +222,10 @@ public class TicketServiceMain {
         fw.write(gson.toJson(ManifestationController.manifestationDao));
         fw.close();
         fw = new FileWriter("comments.json");
-        fw.write(gson.toJson(CommentController.commentDao));
+        fw.write(gsonImage.toJson(CommentController.commentDao));
         fw.close();
         fw = new FileWriter("tickets.json");
-        fw.write(gson.toJson(TicketController.ticketDao));
+        fw.write(gsonImage.toJson(TicketController.ticketDao));
         fw.close();
     }
 
@@ -232,7 +238,7 @@ public class TicketServiceMain {
 
     private static void setUpComments() {
         try {
-            CommentController.commentDao = gson.fromJson(new BufferedReader(new FileReader("comments.json"))
+            CommentController.commentDao = gsonImage.fromJson(new BufferedReader(new FileReader("comments.json"))
                     .lines().collect(Collectors.joining(System.lineSeparator())), CommentDao.class);
         } catch (FileNotFoundException e) {
             CommentController.commentDao = new CommentDao();
@@ -242,7 +248,7 @@ public class TicketServiceMain {
 
     private static void setUpTickets() {
         try {
-            TicketController.ticketDao = gson.fromJson(new BufferedReader(new FileReader("tickets.json"))
+            TicketController.ticketDao = gsonImage.fromJson(new BufferedReader(new FileReader("tickets.json"))
                     .lines().collect(Collectors.joining(System.lineSeparator())), TicketDao.class);
         } catch (FileNotFoundException e) {
             TicketController.ticketDao = new TicketDao();

@@ -46,7 +46,7 @@ Vue.component("newmanifestation", {
             </div>
             <div class="col"> <input type="date" id="date" v-model="manif.date"> <input type="time"  id="time" v-model="manif.time"> </div>
             <div class="col">
-<input type="text" id="location" placeholder="Location" v-model="manif.location"> </div>
+<input type="text" id="location" placeholder="Location" v-model="manif.location" style="width: 100%"> </div>
 
             <div class="col">
             <input type="button" class="btn btn-primary" value="Preview on map" v-on:click="showOnMap()" />
@@ -109,13 +109,13 @@ Vue.component("newmanifestation", {
             axios.post('manifestations/newManifestation', JSON.stringify(this.manif))
                 .then(res => {
                     alert(res.data);
+                    window.location.href = "#/";
 
                 })
                 .catch(err => {
                     alert(err.response.data);
 
                 })
-            window.location.href = "#/";
         },
         showOnMap: function () {
             let self = this;
@@ -131,6 +131,12 @@ Vue.component("newmanifestation", {
                 data: data
             })
                 .done(res => {
+                    if (res[0] === undefined) return;
+                    self.manif.location =
+                        (res[0].address.road ? res[0].address.road : '') + ', ' +
+                        (res[0].address.city ? res[0].address.city : '') + ', ' +
+                        (res[0].address.country ? res[0].address.country : '') + ', ' +
+                        (res[0].address.postcode ? res[0].address.postcode : '');
                     $('#map').empty();
                     self.mapPosition.latitude = parseFloat(res[0].lat);
                     self.mapPosition.longitude = parseFloat(res[0].lon);

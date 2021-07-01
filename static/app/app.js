@@ -60,8 +60,25 @@ var app = new Vue({
         }
     },
     mounted() {
+        axios.get('users/currentUser')
+            .then(res => {
+                this.userRole = res.data.userRole;
+            })
+            .catch(err => {
+                console.error(err);
+            })
+
         this.$root.$on('loggingIn', (role) => {
             this.userRole = role;
         })
+    },
+    created() {
+        axios.get('users/currentUser')
+            .then(res => {
+                this.userRole = res.data.userRole;
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 });

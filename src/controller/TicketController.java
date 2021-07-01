@@ -34,9 +34,13 @@ public class TicketController {
             totalPrice += ticket.getManifestation().getTicketPrice() * modifier;
         }
 
+        if (UserController.currentUser.getLoyaltyCategory() != null) {
+            totalPrice *= UserController.currentUser.getLoyaltyCategory().getDiscount();
+        }
+
         return totalPrice;
     };
-    static ExclusionStrategy strategy = new ExclusionStrategy() {
+    public static ExclusionStrategy strategy = new ExclusionStrategy() {
         @Override
         public boolean shouldSkipField(FieldAttributes field) {
             return field.getDeclaringClass() == Manifestation.class && field.getName().equals("image");

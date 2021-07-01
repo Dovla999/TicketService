@@ -8,7 +8,7 @@ Vue.component('manifestation', {
                 rating: '0'
             },
             tickets: {
-                count: 1,
+                count: '1',
                 type: 'REGULAR'
             },
             mapPosition: {latitude: 45.267136, longitude: 19.833549},
@@ -58,7 +58,7 @@ Vue.component('manifestation', {
         </div>
         <div class="row">
             <div class="col">
-                <h3>When and where: {{manif.datetime.toLocaleString()}} {{manif.location.address}} </h3>
+                <h3>When and where: <br> {{manif.datetime.toLocaleString()}} <br> {{manif.location.address}} </h3>
                 </div>
                 <div v-if="ticketable" class="col"> 
                 <p style="font-size: x-large;">Tickets:                  
@@ -121,7 +121,7 @@ Vue.component('manifestation', {
                 ],
                 view: new ol.View({
                     center: ol.proj.fromLonLat([self.mapPosition.longitude, self.mapPosition.latitude]),
-                    zoom: 15
+                    zoom: 17
                 })
             });
         },

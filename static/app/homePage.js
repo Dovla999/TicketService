@@ -59,15 +59,15 @@ Vue.component('homepage', {
 <button type="button" class="btn btn-primary" v-on:click="search">Search</button>
 </div>
 </div>
-    <div class="container">
-    <div class="row row-cols-1 row-cols-md-2">
+    <div class="d-flex justify-content-center" >
+    <div class="row row-cols-1 row-cols-md-2" style = "width: 85%;">
     <div class="col" v-for="m in ms" :key="m.uuid">
         <div class="card mb-3" style="max-width: 700px;">
             <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4" style="width:100%">
                     <img :src="m.image" class="card-img-top imageitem"  >
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8" style="width:100%">
                     <div class="card-body text-end" style="padding: 10px">
                         <h5 class="card-title">{{m.name}}</h5>
                         <p class="card-text"> {{m.type}} </p>

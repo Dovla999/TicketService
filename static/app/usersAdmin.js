@@ -76,7 +76,7 @@ Vue.component('usersadmin', {
                 <td> {{user.firstName}} </td>
                 <td> {{user.lastName}} </td>
                 <td> {{user.points}} </td>
-                <td v-if="user.loyaltyCategory"> {{user.loyaltyCategory.name}} </td>
+                <td v-if="user.userRole==='CLIENT'"> {{user.loyaltyCategory.name}} </td>
                 <td v-else="user.loyaltyCategory"> No type </td>
                 <td v-if="user.suspicious"> YES</td>
                 <td v-else="user.suspicious"> NO </td>

@@ -149,7 +149,15 @@ Vue.component("editmanif", {
                 data: data
             })
                 .done(res => {
+                    console.log(res);
+                    if (res[0] === undefined) return;
                     $('#map').empty();
+
+                    self.manif.location.address =
+                        (res[0].address.road ? res[0].address.road : '') + ', ' +
+                        (res[0].address.city ? res[0].address.city : '') + ', ' +
+                        (res[0].address.country ? res[0].address.country : '') + ', ' +
+                        (res[0].address.postcode ? res[0].address.postcode : '');
                     self.mapPosition.latitude = parseFloat(res[0].lat);
                     self.mapPosition.longitude = parseFloat(res[0].lon);
                     self.manif.latitude = self.mapPosition.latitude;
@@ -167,7 +175,7 @@ Vue.component("editmanif", {
                         ],
                         view: new ol.View({
                             center: ol.proj.fromLonLat([self.mapPosition.longitude, self.mapPosition.latitude]),
-                            zoom: 15
+                            zoom: 17
                         })
                     });
                 })
@@ -185,7 +193,7 @@ Vue.component("editmanif", {
             ],
             view: new ol.View({
                 center: ol.proj.fromLonLat([this.mapPosition.longitude, this.mapPosition.latitude]),
-                zoom: 10
+                zoom: 17
             })
         });
 
