@@ -36,6 +36,7 @@ public class CommentDao {
                 .findFirst();
         c.ifPresent(value -> comments.remove(value.getUuid()));
         comments.put(comment.getUuid(), comment);
+        recalculateRating(comment.getManifestation());
 
     }
 

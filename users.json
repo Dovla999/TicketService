@@ -1,5 +1,24 @@
 {
   "users": {
+    "ec032c74-5132-430b-82f7-271d118ed04a": {
+      "uuid": "ec032c74-5132-430b-82f7-271d118ed04a",
+      "username": "novi_prodavac",
+      "password": "password",
+      "firstName": "Novi",
+      "lastName": "Prodavac",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 2021,
+        "month": 5,
+        "day": 30
+      },
+      "userRole": "SELLER",
+      "cancellations": [],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": false,
+      "points": 0.0
+    },
     "7686eb1c-10a2-456d-9f85-ef7ee28e8fb6": {
       "uuid": "7686eb1c-10a2-456d-9f85-ef7ee28e8fb6",
       "username": "seller",
@@ -24,13 +43,380 @@
       "suspicious": false,
       "points": 0.0
     },
+    "38d48627-a226-4cfb-b260-a4b588de62ed": {
+      "uuid": "38d48627-a226-4cfb-b260-a4b588de62ed",
+      "username": "malzahar",
+      "password": "malzahar",
+      "firstName": "Gul",
+      "lastName": "Dan",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 2019,
+        "month": 12,
+        "day": 31
+      },
+      "userRole": "CLIENT",
+      "loyaltyCategory": {
+        "name": "BRONZE",
+        "points": 0,
+        "discount": 1.0
+      },
+      "cancellations": [],
+      "blocked": true,
+      "deleted": false,
+      "suspicious": false,
+      "points": 0.0
+    },
     "a83d1293-b5ea-457d-a7ce-43fa0b0f5b4b": {
       "uuid": "a83d1293-b5ea-457d-a7ce-43fa0b0f5b4b",
       "username": "buyer",
-      "password": "buyer",
-      "firstName": "buyer",
-      "lastName": "buyer",
+      "password": "password",
+      "firstName": "Radan",
+      "lastName": "Secer",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 2021,
+        "month": 7,
+        "day": 8
+      },
       "userRole": "CLIENT",
+      "loyaltyCategory": {
+        "name": "GOLDEN",
+        "points": 4000,
+        "discount": 0.95
+      },
+      "cancellations": [
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 31,
+            "nano": 581678900
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 31,
+            "nano": 811721500
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 32,
+            "nano": 51775500
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 32,
+            "nano": 248819200
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 32,
+            "nano": 558660800
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 32,
+            "nano": 873730600
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 33,
+            "nano": 177671500
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 33,
+            "nano": 401722200
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 40,
+            "nano": 177683700
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 40,
+            "nano": 396724000
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 40,
+            "nano": 785666700
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 50,
+            "second": 41,
+            "nano": 715400
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 37,
+            "nano": 459679400
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 38,
+            "nano": 3592900
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 38,
+            "nano": 357662500
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 38,
+            "nano": 692677900
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 38,
+            "nano": 948662500
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 39,
+            "nano": 282737100
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 39,
+            "nano": 603662700
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 39,
+            "nano": 929670200
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 40,
+            "nano": 249741100
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 40,
+            "nano": 575662700
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 40,
+            "nano": 930743400
+          }
+        },
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 1
+          },
+          "time": {
+            "hour": 22,
+            "minute": 54,
+            "second": 41,
+            "nano": 230810100
+          }
+        }
+      ],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": true,
+      "points": 336095.25600000087
+    },
+    "34c946c8-ff07-4400-87c9-b6e38eea4bec": {
+      "uuid": "34c946c8-ff07-4400-87c9-b6e38eea4bec",
+      "username": "admin",
+      "password": "admin",
+      "firstName": "admin",
+      "lastName": "admin",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 1983,
+        "month": 3,
+        "day": 3
+      },
+      "userRole": "ADMIN",
       "loyaltyCategory": {
         "name": "BRONZE",
         "points": 0,
@@ -42,13 +428,57 @@
       "suspicious": false,
       "points": 0.0
     },
-    "34c946c8-ff07-4400-87c9-b6e38eea4bec": {
-      "uuid": "34c946c8-ff07-4400-87c9-b6e38eea4bec",
-      "username": "admin",
-      "password": "admin",
-      "firstName": "admin",
-      "lastName": "admin",
-      "userRole": "ADMIN",
+    "31e42e81-e5f8-4f6c-bfbf-4e852518c12f": {
+      "uuid": "31e42e81-e5f8-4f6c-bfbf-4e852518c12f",
+      "username": "novi_kupac",
+      "password": "password",
+      "firstName": "Novi",
+      "lastName": "Kupac",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 1995,
+        "month": 1,
+        "day": 1
+      },
+      "userRole": "CLIENT",
+      "loyaltyCategory": {
+        "name": "BRONZE",
+        "points": 0,
+        "discount": 1.0
+      },
+      "cancellations": [
+        {
+          "date": {
+            "year": 2021,
+            "month": 7,
+            "day": 3
+          },
+          "time": {
+            "hour": 21,
+            "minute": 27,
+            "second": 33,
+            "nano": 376992100
+          }
+        }
+      ],
+      "blocked": false,
+      "deleted": false,
+      "suspicious": false,
+      "points": 372.4000000000001
+    },
+    "91de7b72-17aa-47f3-82f1-7dca17708350": {
+      "uuid": "91de7b72-17aa-47f3-82f1-7dca17708350",
+      "username": "Milos",
+      "password": "milos",
+      "firstName": "Milos",
+      "lastName": "Milosic",
+      "userGender": "MALE",
+      "birthDate": {
+        "year": 2021,
+        "month": 6,
+        "day": 27
+      },
+      "userRole": "CLIENT",
       "loyaltyCategory": {
         "name": "BRONZE",
         "points": 0,

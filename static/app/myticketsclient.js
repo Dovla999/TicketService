@@ -82,6 +82,7 @@ Vue.component('myticketsclient', {
     methods: {
         cancel: function (id) {
             let self = this;
+
             axios.put('tickets/cancel/' + id)
                 .then(res => {
 
@@ -91,7 +92,7 @@ Vue.component('myticketsclient', {
                     }
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert("Manifestation is over, can't cancel this ticket");
                 })
         },
         search: function () {

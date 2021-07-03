@@ -34,9 +34,9 @@ Vue.component('manifestationsadmin', {
     <span class="input-group-text">Before</span>
     <input type="date" v-model="sfs.dateEnd" >
     <span class="input-group-text">From</span>
-    <input type="number" v-model="sfs.priceStart" style="width: 5%;" >
+    <input type="number" v-model="sfs.priceStart" style="width: 4%;" >
     <span class="input-group-text">To</span>
-    <input type="number" v-model="sfs.priceEnd" style="width: 5%;" >
+    <input type="number" v-model="sfs.priceEnd" style="width: 4%;" >
     <span class="input-group-text">Sort by</span>
     <select v-model="sfs.sortCrit">
         <option value="NAME">Name</option>

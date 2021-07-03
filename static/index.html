@@ -54,7 +54,7 @@
                 type="button"></button>
     </div>
 
-    <div class="carousel-inner" style=" max-height:500px !important;">
+    <div class="carousel-inner" style=" max-height:400px !important;">
         <div class="carousel-item active">
             <img class="d-block w-100" src="3.jpg" style="height: 500px;">
         </div>
@@ -87,6 +87,47 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
+                        <a class="nav-link" href="#/newManifestation">New Manifestation</a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'CLIENT'">
+                        <a class="nav-link" href="#/cart">Cart </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'CLIENT'">
+                        <a class="nav-link" href="#/ticketsclient">My tickets </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
+                        <a class="nav-link" href="#/newseller">Add seller </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
+                        <a class="nav-link" href="#/adminmanifs">All manifestations </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
+                        <a class="nav-link" href="#/ticketsadmin">All tickets </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
+                        <a class="nav-link" href="#/usersadmin">All users </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
+                        <a class="nav-link" href="#/commentsadmin">All comments </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
+                        <a class="nav-link" href="#/manifseller">My manifestations </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
+                        <a class="nav-link" href="#/sellertickets">Tickets </a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
+                        <a class="nav-link" href="#/sellercomments">Comments </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" v-bind:hidden="userRole == 'NONE'">
+                        <a class="nav-link">Hello, {{username}} !</a>
+                    </li>
+                    <li class="nav-item" v-bind:hidden="userRole == 'NONE'">
+                        <a class="nav-link" href="#/profile">Profile</a>
+                    </li>
                     <li class="nav-item" v-bind:hidden="userRole != 'NONE'">
                         <a class="nav-link" href="#/registration">Registration</a>
                     </li>
@@ -95,45 +136,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#/" v-on:click="logout">Logout</a>
+                        <a class="nav-link" href="#/" v-bind:hidden="userRole == 'NONE'" v-on:click="logout">Logout</a>
                     </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
-                        <a class="nav-link" href="#/newManifestation">New Manifestation</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole == 'NONE'">
-                        <a class="nav-link" href="#/profile">Profile</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'CLIENT'">
-                        <a class="nav-link" href="#/cart">Cart CLIENT</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'CLIENT'">
-                        <a class="nav-link" href="#/ticketsclient">My tickets CLIENT</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
-                        <a class="nav-link" href="#/newseller">Add seller ADMIN</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
-                        <a class="nav-link" href="#/adminmanifs">All manifestations ADMIN</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
-                        <a class="nav-link" href="#/ticketsadmin">All tickets ADMIN</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
-                        <a class="nav-link" href="#/usersadmin">All users ADMIN</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'ADMIN'">
-                        <a class="nav-link" href="#/commentsadmin">All comments ADMIN</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
-                        <a class="nav-link" href="#/manifseller">My manifestations SELLER</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
-                        <a class="nav-link" href="#/sellertickets">Tickets SELLER</a>
-                    </li>
-                    <li class="nav-item" v-bind:hidden="userRole != 'SELLER'">
-                        <a class="nav-link" href="#/sellercomments">Comments Seller</a>
-                    </li>
-
+                </ul>
             </div>
         </div>
     </nav>

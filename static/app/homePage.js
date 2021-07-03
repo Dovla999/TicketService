@@ -30,9 +30,9 @@ Vue.component('homepage', {
     <span class="input-group-text">Before</span>
     <input type="date" v-model="sfs.dateEnd" >
     <span class="input-group-text">From</span>
-    <input type="number" v-model="sfs.priceStart" style="width: 5%;" >
+    <input type="number" v-model="sfs.priceStart" style="width: 4%;" >
     <span class="input-group-text">To</span>
-    <input type="number" v-model="sfs.priceEnd" style="width: 5%;" >
+    <input type="number" v-model="sfs.priceEnd" style="width: 4%;" >
     <span class="input-group-text">Sort by</span>
     <select v-model="sfs.sortCrit">
         <option value="NAME">Name</option>
@@ -64,10 +64,10 @@ Vue.component('homepage', {
     <div class="col" v-for="m in ms" :key="m.uuid">
         <div class="card mb-3" style="max-width: 700px;">
             <div class="row g-0">
-                <div class="col-md-4" style="width:100%">
-                    <img :src="m.image" class="card-img-top imageitem"  >
+                <div class="col-md-4" style="height: 100%; max-height: 240px !important;">
+                    <img :src="m.image" style="max-height: 240px;" class="card-img-top imageitem"  >
                 </div>
-                <div class="col-md-8" style="width:100%">
+                <div class="col-md-8">
                     <div class="card-body text-end" style="padding: 10px">
                         <h5 class="card-title">{{m.name}}</h5>
                         <p class="card-text"> {{m.type}} </p>

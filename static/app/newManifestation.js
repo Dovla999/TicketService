@@ -133,9 +133,9 @@ Vue.component("newmanifestation", {
                 .done(res => {
                     if (res[0] === undefined) return;
                     self.manif.location =
-                        (res[0].address.road ? res[0].address.road : '') + ', ' +
-                        (res[0].address.city ? res[0].address.city : '') + ', ' +
-                        (res[0].address.country ? res[0].address.country : '') + ', ' +
+                        (res[0].address.road ? res[0].address.road + ', ' : '') +
+                        (res[0].address.city ? res[0].address.city + ', ' : '') +
+                        (res[0].address.country ? res[0].address.country + ', ' : '') +
                         (res[0].address.postcode ? res[0].address.postcode : '');
                     $('#map').empty();
                     self.mapPosition.latitude = parseFloat(res[0].lat);

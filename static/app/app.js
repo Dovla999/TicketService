@@ -45,12 +45,13 @@ var app = new Vue({
     router,
     el: '#tickets',
     data: {
-        userRole: 'NONE'
+        userRole: 'NONE',
+        username: ''
     },
     methods: {
         logout: function () {
             let self = this;
-            this.$root.$emit('loggingIn', 'NONE');
+            this.$root.$emit('loggingIn', {userRole: 'NONE', username: ''});
             axios
                 .get("users/logout")
                 .then(function (resp) {
@@ -63,19 +64,23 @@ var app = new Vue({
         axios.get('users/currentUser')
             .then(res => {
                 this.userRole = res.data.userRole;
+                this.username = res.data.username;
             })
             .catch(err => {
                 console.error(err);
             })
 
         this.$root.$on('loggingIn', (role) => {
-            this.userRole = role;
+            this.userRole = role.userRole;
+            this.username = role.username;
+
         })
     },
     created() {
         axios.get('users/currentUser')
             .then(res => {
                 this.userRole = res.data.userRole;
+                this.username = res.data.username;
             })
             .catch(err => {
                 console.error(err);

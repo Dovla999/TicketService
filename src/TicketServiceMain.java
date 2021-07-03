@@ -161,7 +161,18 @@ public class TicketServiceMain {
                 e.printStackTrace();
             }
         }); */
-        afterAfter((request, response) -> saveData());
+
+
+        afterAfter((request, response) -> {
+            Thread t = new Thread(() -> {
+                try {
+                    saveData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        });
 
 
     }

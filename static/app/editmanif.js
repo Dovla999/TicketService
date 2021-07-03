@@ -120,12 +120,11 @@ Vue.component("editmanif", {
                         .then(res => {
                             self.manif = res.data;
                             self.manif.datetime = new Date(self.manif.dateTime);
-                            self.manif.image = 'data:image/png;base64,' + self.manif.image;
                             let tmpDate = new Date(this.manif.dateTime);
                             tmpDate.setTime(tmpDate.getTime() + (2 * 60 * 60 * 1000));
                             self.manif.date = (tmpDate).toISOString().split('T')[0];
                             self.manif.time = ((tmpDate).toISOString().split('T')[1]).substr(0, 5);
-                            self.showOnMap();
+                            //self.showOnMap();
                         })
                         .catch(err => {
                             console.error(err);
@@ -154,9 +153,9 @@ Vue.component("editmanif", {
                     $('#map').empty();
 
                     self.manif.location.address =
-                        (res[0].address.road ? res[0].address.road : '') + ', ' +
-                        (res[0].address.city ? res[0].address.city : '') + ', ' +
-                        (res[0].address.country ? res[0].address.country : '') + ', ' +
+                        (res[0].address.road ? res[0].address.road + ', ' : '') +
+                        (res[0].address.city ? res[0].address.city + ', ' : '') +
+                        (res[0].address.country ? res[0].address.country + ', ' : '') +
                         (res[0].address.postcode ? res[0].address.postcode : '');
                     self.mapPosition.latitude = parseFloat(res[0].lat);
                     self.mapPosition.longitude = parseFloat(res[0].lon);
@@ -203,8 +202,7 @@ Vue.component("editmanif", {
                 this.manif = res.data;
                 this.manif.datetime = new Date(this.manif.dateTime);
                 console.log(this.manif);
-                this.manif.image = this.manif.image;
-                this.image = 'data:image/png;base64,' + this.manif.image;
+                this.image = 'data:image/png;base64,' + self.manif.image;
                 let tmpDate = new Date(this.manif.dateTime);
                 tmpDate.setTime(tmpDate.getTime() + (2 * 60 * 60 * 1000));
                 this.manif.date = (tmpDate).toISOString().split('T')[0];

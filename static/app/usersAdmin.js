@@ -41,7 +41,7 @@ Vue.component('usersadmin', {
 </select>
 <span class="input-group-text">Filter by type</span>
 <select v-model="sfs.filterType">
-<option value="ALL">NONE</option>
+<option value="ALL">ALL</option>
 <option v-for="type of types" :value="type">{{type}}</option>
 </select>
 <span class="input-group-text">Role</span>
@@ -119,6 +119,8 @@ Vue.component('usersadmin', {
                         user => {
                             if (user.userRole != 'CLIENT') {
                                 user.points = 'X';
+                            } else {
+                                user.points = parseFloat(user.points).toFixed(2)
                             }
                         }
                     );
@@ -132,6 +134,15 @@ Vue.component('usersadmin', {
             axios.put('users/block/' + id)
                 .then(res => {
                     self.users = res.data;
+                    self.users.forEach(
+                        user => {
+                            if (user.userRole != 'CLIENT') {
+                                user.points = 'X';
+                            } else {
+                                user.points = parseFloat(user.points).toFixed(2)
+                            }
+                        }
+                    );
                 })
                 .catch(err => {
                     console.error(err);
@@ -158,6 +169,8 @@ Vue.component('usersadmin', {
                 this.users.forEach(user => {
                     if (user.userRole != 'CLIENT') {
                         user.points = 'X';
+                    } else {
+                        user.points = parseFloat(user.points).toFixed(2)
                     }
                 });
             })

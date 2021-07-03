@@ -75,8 +75,7 @@ public class UserController {
 
     public static Route newSeller = (Request request, Response response) -> {
 
-        if (!currentUser.getUserRole().equals(UserRole.ADMIN)) {
-            response.body("User logged in");
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.ADMIN)) {
             response.status(400);
             return response;
         }
@@ -119,6 +118,10 @@ public class UserController {
     };
     public static Route updateUser = (Request request, Response response) ->
     {
+        if (currentUser == null) {
+            response.status(400);
+            return response;
+        }
         var body = gson.fromJson((request.body()), HashMap.class);
         User user = userDao.findById((String) body.get("uuid"));
         if (user == null) {
@@ -199,6 +202,10 @@ public class UserController {
 
 
     public static Route usersForAdmin = (request, response) -> {
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.ADMIN)) {
+            response.status(400);
+            return response;
+        }
         Map<String, String> sfs = new HashMap<>();
         request.queryParams()
                 .forEach(s -> sfs.put(s, request.queryParams(s)));
@@ -208,6 +215,10 @@ public class UserController {
     };
 
     public static Route deleteUser = (request, response) -> {
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.ADMIN)) {
+            response.status(400);
+            return response;
+        }
         if (userDao.deleteUser(request.params("id"))) {
             response.status(200);
             return response;
@@ -218,6 +229,10 @@ public class UserController {
     };
 
     public static Route blockUser = (request, response) -> {
+        if (currentUser == null || !currentUser.getUserRole().equals(UserRole.ADMIN)) {
+            response.status(400);
+            return response;
+        }
         userDao.blockUser(request.params("id"));
         return gson.toJson(userDao.getAllForAdmin(new HashMap<>()));
     };
